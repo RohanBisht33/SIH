@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyMesh - P2P Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .status-bar {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .status-item {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 12px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .status-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .status-value {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .tab-content {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            min-height: 600px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .upload-area {
+            border: 3px dashed #4facfe;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            background: rgba(79, 172, 254, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            background: rgba(79, 172, 254, 0.2);
+            border-color: #00f2fe;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .file-meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .reputation {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ffa500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e1e5e9;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            transition: width 0.3s ease;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .peer-list {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .peer-item {
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .online-indicator {
+            width: 10px;
+            height: 10px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .encryption-badge {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .status-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 StudyMesh</h1>
+            <p>Decentralized P2P Study Material Sharing Platform</p>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-grid">
+                <div class="status-item">
+                    <span class="status-value" id="connectedPeers">3</span>
+                    <span>Connected Peers</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-value" id="filesShared">12</span>
+                    <span>Files Shared</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-value" id="totalStorage">2.4GB</span>
+                    <span>Storage Used</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-value" id="reputation">4.8★</span>
+                    <span>Your Reputation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('share')">📤 Share Files</button>
+            <button class="tab-btn" onclick="switchTab('discover')">🔍 Discover</button>
+            <button class="tab-btn" onclick="switchTab('library')">📚 My Library</button>
+            <button class="tab-btn" onclick="switchTab('peers')">🌐 Network</button>
+            <button class="tab-btn" onclick="switchTab('blockchain')">⛓️ Blockchain</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Share Files Tab -->
+            <div id="share" class="tab-pane active">
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
+                    <h3>📁 Drop files here or click to browse</h3>
+                    <p>Support for PDFs, images, documents, and more</p>
+                    <p><span class="encryption-badge">🔒 AES-256 Encrypted</span></p>
+                    <input type="file" id="fileInput" style="display: none;" multiple onchange="handleFileSelect(event)">
+                </div>
+
+                <div class="form-group">
+                    <label>File Title:</label>
+                    <input type="text" id="fileTitle" placeholder="e.g., Advanced Calculus Notes">
+                </div>
+
+                <div class="form-group">
+                    <label>Category:</label>
+                    <select id="fileCategory">
+                        <option value="mathematics">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="biology">Biology</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="literature">Literature</option>
+                        <option value="history">History</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Price (ETH):</label>
+                    <input type="number" id="filePrice" placeholder="0.001" step="0.001" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Description:</label>
+                    <textarea id="fileDescription" rows="3" placeholder="Detailed notes covering chapters 1-5..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" onclick="shareFile()">🚀 Share to Network</button>
+
+                <div class="file-list" id="uploadedFiles"></div>
+            </div>
+
+            <!-- Discover Tab -->
+            <div id="discover" class="tab-pane">
+                <input type="text" class="search-bar" placeholder="🔍 Search study materials..." id="searchInput" oninput="searchFiles()">
+                
+                <div class="form-group">
+                    <select id="categoryFilter" onchange="filterFiles()">
+                        <option value="">All Categories</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="biology">Biology</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="literature">Literature</option>
+                        <option value="history">History</option>
+                    </select>
+                </div>
+
+                <div class="grid" id="discoveredFiles"></div>
+            </div>
+
+            <!-- My Library Tab -->
+            <div id="library" class="tab-pane">
+                <h3>📚 Your Downloaded Materials</h3>
+                <div class="grid" id="libraryFiles"></div>
+            </div>
+
+            <!-- Network Tab -->
+            <div id="peers" class="tab-pane">
+                <h3>🌐 Network Status</h3>
+                <div class="peer-list">
+                    <h4>Connected Peers:</h4>
+                    <div id="peersList"></div>
+                </div>
+                
+                <h3>📡 Mesh Network Map</h3>
+                <canvas id="networkCanvas" width="800" height="400" style="border: 1px solid #ddd; border-radius: 10px; width: 100%; max-width: 800px;"></canvas>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="scanForPeers()">🔍 Scan for Peers</button>
+                    <button class="btn btn-success" onclick="createMeshNode()">📡 Create Mesh Node</button>
+                </div>
+            </div>
+
+            <!-- Blockchain Tab -->
+            <div id="blockchain" class="tab-pane">
+                <h3>⛓️ Blockchain Transactions</h3>
+                <div id="blockchainData"></div>
+                
+                <h3>💰 Escrow Transactions</h3>
+                <div id="escrowTransactions"></div>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="mineBlock()">⛏️ Mine Block</button>
+                    <button class="btn btn-success" onclick="validateChain()">✅ Validate Chain</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Modal -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closePurchaseModal()">&times;</span>
+            <h3>💳 Purchase File</h3>
+            <div id="purchaseDetails"></div>
+            <button class="btn btn-success" onclick="completePurchase()">Complete Purchase</button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Global state
+        let peers = [];
+        let sharedFiles = [];
+        let discoveredFiles = [];
+        let libraryFiles = [];
+        let blockchain = [];
+        let pendingTransactions = [];
+        let currentUser = {
+            id: 'user_' + Math.random().toString(36).substr(2, 9),
+            reputation: 4.8,
+            balance: 0.5
+        };
+
+        // Initialize the application
+        function init() {
+            generateMockData();
+            renderDiscoveredFiles();
+            renderPeers();
+            drawNetworkMap();
+            renderBlockchain();
+            startP2PSimulation();
+            
+            // Update status periodically
+            setInterval(updateStatus, 3000);
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // File handling
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.target.classList.add('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.target.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            processFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            processFiles(e.target.files);
+        }
+
+        function processFiles(files) {
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const fileData = {
+                        id: 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        data: e.target.result,
+                        hash: generateHash(e.target.result),
+                        uploadDate: new Date()
+                    };
+                    
+                    displayUploadedFile(fileData);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function shareFile() {
+            const title = document.getElementById('fileTitle').value;
+            const category = document.getElementById('fileCategory').value;
+            const price = document.getElementById('filePrice').value;
+            const description = document.getElementById('fileDescription').value;
+
+            if (!title) {
+                showNotification('Please enter a file title', 'error');
+                return;
+            }
+
+            const uploadedFileElements = document.querySelectorAll('#uploadedFiles .file-item');
+            if (uploadedFileElements.length === 0) {
+                showNotification('Please select a file to share', 'error');
+                return;
+            }
+
+            // Create blockchain record
+            const blockchainRecord = {
+                id: 'tx_' + Date.now(),
+                type: 'file_share',
+                fileHash: generateHash(title + Date.now()),
+                title: title,
+                category: category,
+                price: parseFloat(price) || 0,
+                description: description,
+                seller: currentUser.id,
+                timestamp: new Date(),
+                verified: true
+            };
+
+            blockchain.push(blockchainRecord);
+            
+            // Add to discovered files
+            discoveredFiles.push({
+                ...blockchainRecord,
+                downloads: Math.floor(Math.random() * 100),
+                rating: (Math.random() * 2 + 3).toFixed(1)
+            });
+
+            showNotification('File shared successfully to the network!', 'success');
+            renderDiscoveredFiles();
+            renderBlockchain();
+            
+            // Clear form
+            document.getElementById('fileTitle').value = '';
+            document.getElementById('filePrice').value = '';
+            document.getElementById('fileDescription').value = '';
+            document.getElementById('uploadedFiles').innerHTML = '';
+        }
+
+        function displayUploadedFile(fileData) {
+            const fileList = document.getElementById('uploadedFiles');
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <div class="file-name">${fileData.name}</div>
+                    <div class="file-meta">
+                        Size: ${formatFileSize(fileData.size)} | 
+                        Hash: ${fileData.hash.substr(0, 12)}... |
+                        <span class="encryption-badge">🔒 Encrypted</span>
+                    </div>
+                </div>
+                <div class="file-actions">
+                    <button class="btn btn-danger" onclick="removeUploadedFile(this)">Remove</button>
+                </div>
+            `;
+            fileList.appendChild(fileItem);
+        }
+
+        function removeUploadedFile(button) {
+            button.closest('.file-item').remove();
+        }
+
+        // Search and filter
+        function searchFiles() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            renderDiscoveredFiles(query);
+        }
+
+        function filterFiles() {
+            const category = document.getElementById('categoryFilter').value;
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            renderDiscoveredFiles(query, category);
+        }
+
+        function renderDiscoveredFiles(searchQuery = '', categoryFilter = '') {
+            const container = document.getElementById('discoveredFiles');
+            let filteredFiles = discoveredFiles;
+
+            if (searchQuery) {
+                filteredFiles = filteredFiles.filter(file => 
+                    file.title.toLowerCase().includes(searchQuery) ||
+                    file.description.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            if (categoryFilter) {
+                filteredFiles = filteredFiles.filter(file => file.category === categoryFilter);
+            }
+
+            container.innerHTML = filteredFiles.map(file => `
+                <div class="card">
+                    <div class="price-tag">💰 ${file.price} ETH</div>
+                    <h3>${file.title}</h3>
+                    <p><strong>Category:</strong> ${formatCategory(file.category)}</p>
+                    <p>${file.description}</p>
+                    <div style="margin: 15px 0;">
+                        <div class="reputation">
+                            <span>⭐ ${file.rating}</span>
+                            <span style="margin-left: 15px;">📥 ${file.downloads} downloads</span>
+                        </div>
+                        <p><strong>Seller:</strong> ${file.seller}</p>
+                        <p><strong>Hash:</strong> ${file.fileHash.substr(0, 16)}...</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="purchaseFile('${file.id}')">
+                        💳 Purchase & Download
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function purchaseFile(fileId) {
+            const file = discoveredFiles.find(f => f.id === fileId);
+            if (!file) return;
+
+            document.getElementById('purchaseDetails').innerHTML = `
+                <h4>${file.title}</h4>
+                <p><strong>Price:</strong> ${file.price} ETH</p>
+                <p><strong>Seller:</strong> ${file.seller}</p>
+                <p><strong>Your Balance:</strong> ${currentUser.balance} ETH</p>
+                <p><strong>Description:</strong> ${file.description}</p>
+                <div style="margin: 20px 0;">
+                    <h5>🔐 Smart Contract Escrow</h5>
+                    <p>Payment will be held in escrow until file is verified and downloaded.</p>
+                </div>
+            `;
+
+            document.getElementById('purchaseModal').style.display = 'flex';
+            document.getElementById('purchaseModal').dataset.fileId = fileId;
+        }
+
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+        }
+
+        function completePurchase() {
+            const fileId = document.getElementById('purchaseModal').dataset.fileId;
+            const file = discoveredFiles.find(f => f.id === fileId);
+            
+            if (currentUser.balance < file.price) {
+                showNotification('Insufficient balance!', 'error');
+                return;
+            }
+
+            // Create escrow transaction
+            const escrowTx = {
+                id: 'escrow_' + Date.now(),
+                buyer: currentUser.id,
+                seller: file.seller,
+                fileId: fileId,
+                amount: file.price,
+                status: 'pending',
+                timestamp: new Date()
+            };
+
+            pendingTransactions.push(escrowTx);
+            currentUser.balance -= file.price;
+
+            // Simulate file download
+            setTimeout(() => {
+                libraryFiles.push({
+                    ...file,
+                    downloadDate: new Date(),
+                    status: 'downloaded'
+                });
+
+                // Complete escrow
+                escrowTx.status = 'completed';
+                showNotification('File downloaded successfully!', 'success');
+                renderLibrary();
+                renderEscrowTransactions();
+            }, 2000);
+
+            showNotification('Purchase initiated! Downloading via P2P mesh...', 'success');
+            closePurchaseModal();
+        }
+
+        function renderLibrary() {
+            const container = document.getElementById('libraryFiles');
+            container.innerHTML = libraryFiles.map(file => `
+                <div class="card">
+                    <h3>${file.title}</h3>
+                    <p><strong>Category:</strong> ${formatCategory(file.category)}</p>
+                    <p><strong>Downloaded:</strong> ${file.downloadDate.toLocaleString()}</p>
+                    <div style="margin: 15px 0;">
+                        <span class="encryption-badge">🔒 Decrypted & Verified</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="openFile('${file.id}')">
+                        📖 Open File
+                    </button>
+                    <button class="btn btn-success" onclick="shareToMesh('${file.id}')">
+                        📤 Share to Mesh
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // P2P Network simulation
+        function renderPeers() {
+            const container = document.getElementById('peersList');
+            container.innerHTML = peers.map(peer => `
+                <div class="peer-item">
+                    <div>
+                        <div class="online-indicator"></div>
+                        <strong>${peer.id}</strong>
+                        <span style="margin-left: 10px;">${peer.distance}m away</span>
+                    </div>
+                    <div>
+                        <span>${peer.filesShared} files</span>
+                        <span style="margin-left: 10px;">⭐ ${peer.reputation}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function drawNetworkMap() {
+            const canvas = document.getElementById('networkCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = 800;
+            canvas.height = 400;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw nodes
+            const nodePositions = [
+                { x: 400, y: 200, label: 'You', color: '#4facfe' },
+                { x: 300, y: 150, label: 'Peer 1', color: '#4ade80' },
+                { x: 500, y: 100, label: 'Peer 2', color: '#f093fb' },
+                { x: 250, y: 280, label: 'Peer 3', color: '#ffa500' },
+                { x: 550, y: 250, label: 'Peer 4', color: '#4ecdc4' }
+            ];
+
+            // Draw connections
+            ctx.strokeStyle = '#4facfe';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            
+            // Draw lines between connected nodes
+            const connections = [
+                [0, 1], [0, 2], [0, 3], [1, 2], [2, 4], [3, 4]
+            ];
+            
+            connections.forEach(([from, to]) => {
+                ctx.beginPath();
+                ctx.moveTo(nodePositions[from].x, nodePositions[from].y);
+                ctx.lineTo(nodePositions[to].x, nodePositions[to].y);
+                ctx.stroke();
+            });
+            
+            ctx.setLineDash([]);
+            
+            // Draw nodes
+            nodePositions.forEach(node => {
+                ctx.fillStyle = node.color;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 20, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(node.label, node.x, node.y + 35);
+            });
+        }
+
+        function scanForPeers() {
+            showNotification('Scanning for nearby peers...', 'info');
+            
+            setTimeout(() => {
+                const newPeer = {
+                    id: 'peer_' + Math.random().toString(36).substr(2, 6),
+                    distance: Math.floor(Math.random() * 500) + 50,
+                    filesShared: Math.floor(Math.random() * 20) + 1,
+                    reputation: (Math.random() * 2 + 3).toFixed(1),
+                    lastSeen: new Date()
+                };
+                
+                peers.push(newPeer);
+                renderPeers();
+                drawNetworkMap();
+                updateStatus();
+                showNotification(`New peer discovered: ${newPeer.id}`, 'success');
+            }, 1500);
+        }
+
+        function createMeshNode() {
+            showNotification('Creating mesh node beacon...', 'info');
+            
+            setTimeout(() => {
+                showNotification('Mesh node active! Broadcasting availability...', 'success');
+                // Simulate attracting new peers
+                setTimeout(() => {
+                    scanForPeers();
+                }, 2000);
+            }, 1000);
+        }
+
+        // Blockchain functions
+        function renderBlockchain() {
+            const container = document.getElementById('blockchainData');
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h4>Latest Blocks (${blockchain.length} total)</h4>
+                </div>
+                ${blockchain.slice(-5).reverse().map((block, index) => `
+                    <div class="card">
+                        <h4>Block #${blockchain.length - index}</h4>
+                        <p><strong>Type:</strong> ${block.type}</p>
+                        <p><strong>File Hash:</strong> ${block.fileHash}</p>
+                        <p><strong>Title:</strong> ${block.title}</p>
+                        <p><strong>Price:</strong> ${block.price} ETH</p>
+                        <p><strong>Seller:</strong> ${block.seller}</p>
+                        <p><strong>Timestamp:</strong> ${block.timestamp.toLocaleString()}</p>
+                        <div style="margin-top: 10px;">
+                            ${block.verified ? '<span class="encryption-badge">✅ Verified</span>' : '<span style="color: #f5576c;">⏳ Pending</span>'}
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function renderEscrowTransactions() {
+            const container = document.getElementById('escrowTransactions');
+            container.innerHTML = pendingTransactions.map(tx => `
+                <div class="card">
+                    <h4>Escrow Transaction</h4>
+                    <p><strong>ID:</strong> ${tx.id}</p>
+                    <p><strong>Buyer:</strong> ${tx.buyer}</p>
+                    <p><strong>Seller:</strong> ${tx.seller}</p>
+                    <p><strong>Amount:</strong> ${tx.amount} ETH</p>
+                    <p><strong>Status:</strong> ${tx.status}</p>
+                    <p><strong>Created:</strong> ${tx.timestamp.toLocaleString()}</p>
+                    <div style="margin-top: 15px;">
+                        ${tx.status === 'pending' ? 
+                            '<div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>' :
+                            '<span class="encryption-badge">✅ Completed</span>'
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function mineBlock() {
+            showNotification('Mining new block...', 'info');
+            
+            setTimeout(() => {
+                const newBlock = {
+                    id: 'block_' + Date.now(),
+                    type: 'system',
+                    fileHash: generateHash('mining_' + Date.now()),
+                    title: 'System Block',
+                    category: 'system',
+                    price: 0,
+                    description: 'Mined block for network validation',
+                    seller: currentUser.id,
+                    timestamp: new Date(),
+                    verified: true
+                };
+                
+                blockchain.push(newBlock);
+                renderBlockchain();
+                showNotification('Block mined successfully! +0.001 ETH reward', 'success');
+                currentUser.balance += 0.001;
+                updateStatus();
+            }, 3000);
+        }
+
+        function validateChain() {
+            showNotification('Validating blockchain integrity...', 'info');
+            
+            setTimeout(() => {
+                const isValid = blockchain.every(block => block.verified);
+                if (isValid) {
+                    showNotification('Blockchain validation successful!', 'success');
+                } else {
+                    showNotification('Blockchain validation failed!', 'error');
+                }
+            }, 1500);
+        }
+
+        // Utility functions
+        function generateHash(data) {
+            return 'hash_' + btoa(data + Date.now()).substr(0, 32);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function formatCategory(category) {
+            return category.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'} 
+                    <span>${message}</span>
+                </div>
+            `;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateStatus() {
+            document.getElementById('connectedPeers').textContent = peers.length;
+            document.getElementById('filesShared').textContent = sharedFiles.length + libraryFiles.length;
+            document.getElementById('totalStorage').textContent = 
+                ((sharedFiles.length + libraryFiles.length) * 2.5).toFixed(1) + 'MB';
+            document.getElementById('reputation').textContent = currentUser.reputation + '★';
+        }
+
+        function startP2PSimulation() {
+            // Simulate periodic peer discovery
+            setInterval(() => {
+                if (Math.random() < 0.1 && peers.length < 10) {
+                    const newPeer = {
+                        id: 'peer_' + Math.random().toString(36).substr(2, 6),
+                        distance: Math.floor(Math.random() * 1000) + 50,
+                        filesShared: Math.floor(Math.random() * 50) + 1,
+                        reputation: (Math.random() * 2 + 3).toFixed(1),
+                        lastSeen: new Date()
+                    };
+                    peers.push(newPeer);
+                    renderPeers();
+                    updateStatus();
+                }
+            }, 10000);
+
+            // Simulate file transfers
+            setInterval(() => {
+                if (Math.random() < 0.15) {
+                    const messages = [
+                        'File chunk received via mesh network',
+                        'P2P transfer completed successfully',
+                        'New study material discovered nearby',
+                        'Blockchain transaction verified',
+                        'Mesh network expanded'
+                    ];
+                    showNotification(messages[Math.floor(Math.random() * messages.length)], 'info');
+                }
+            }, 15000);
+        }
+
+        function generateMockData() {
+            // Generate mock discovered files
+            const mockFiles = [
+                {
+                    id: 'file_001',
+                    title: 'Advanced Calculus Complete Notes',
+                    category: 'mathematics',
+                    price: 0.05,
+                    description: 'Comprehensive notes covering differential and integral calculus with solved examples.',
+                    seller: 'student_alice',
+                    downloads: 156,
+                    rating: '4.8',
+                    fileHash: generateHash('calculus_notes'),
+                    timestamp: new Date(Date.now() - 86400000)
+                },
+                {
+                    id: 'file_002',
+                    title: 'Physics Lab Manual - Mechanics',
+                    category: 'physics',
+                    price: 0.03,
+                    description: 'Complete lab manual with experiments and theoretical background.',
+                    seller: 'prof_newton',
+                    downloads: 89,
+                    rating: '4.6',
+                    fileHash: generateHash('physics_lab'),
+                    timestamp: new Date(Date.now() - 172800000)
+                },
+                {
+                    id: 'file_003',
+                    title: 'Data Structures & Algorithms',
+                    category: 'computer-science',
+                    price: 0.08,
+                    description: 'Complete course material with code examples in Python and Java.',
+                    seller: 'dev_coder',
+                    downloads: 234,
+                    rating: '4.9',
+                    fileHash: generateHash('dsa_course'),
+                    timestamp: new Date(Date.now() - 259200000)
+                },
+                {
+                    id: 'file_004',
+                    title: 'Organic Chemistry Reactions',
+                    category: 'chemistry',
+                    price: 0.04,
+                    description: 'Detailed mechanism and examples of organic reactions.',
+                    seller: 'chem_master',
+                    downloads: 67,
+                    rating: '4.5',
+                    fileHash: generateHash('organic_chem'),
+                    timestamp: new Date(Date.now() - 345600000)
+                },
+                {
+                    id: 'file_005',
+                    title: 'Shakespeare Complete Works Analysis',
+                    category: 'literature',
+                    price: 0.06,
+                    description: 'In-depth analysis of major works with literary criticism.',
+                    seller: 'lit_scholar',
+                    downloads: 123,
+                    rating: '4.7',
+                    fileHash: generateHash('shakespeare'),
+                    timestamp: new Date(Date.now() - 432000000)
+                }
+            ];
+
+            discoveredFiles = mockFiles;
+
+            // Generate mock peers
+            peers = [
+                {
+                    id: 'alice_device',
+                    distance: 45,
+                    filesShared: 12,
+                    reputation: '4.8',
+                    lastSeen: new Date()
+                },
+                {
+                    id: 'bob_laptop',
+                    distance: 120,
+                    filesShared: 8,
+                    reputation: '4.2',
+                    lastSeen: new Date()
+                },
+                {
+                    id: 'carol_phone',
+                    distance: 78,
+                    filesShared: 15,
+                    reputation: '4.9',
+                    lastSeen: new Date()
+                }
+            ];
+
+            // Generate mock blockchain
+            blockchain = [
+                {
+                    id: 'genesis',
+                    type: 'genesis',
+                    fileHash: generateHash('genesis_block'),
+                    title: 'Genesis Block',
+                    category: 'system',
+                    price: 0,
+                    description: 'Initial blockchain block',
+                    seller: 'system',
+                    timestamp: new Date(Date.now() - 86400000 * 7),
+                    verified: true
+                },
+                ...mockFiles.map(file => ({
+                    ...file,
+                    type: 'file_share',
+                    verified: true
+                }))
+            ];
+        }
+
+        function openFile(fileId) {
+            showNotification('Opening file in secure viewer...', 'info');
+            // In a real implementation, this would decrypt and open the file
+        }
+
+        function shareToMesh(fileId) {
+            showNotification('Broadcasting file to mesh network...', 'info');
+            setTimeout(() => {
+                showNotification('File now available for P2P sharing!', 'success');
+            }, 1500);
+        }
+
+        // Initialize the application when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
