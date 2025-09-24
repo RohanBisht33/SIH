@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyMesh - P2P Learning Platform</title>
+    <title>EduXchange - Student Marketplace</title>
     <style>
         * {
             margin: 0;
@@ -12,1235 +12,2142 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: 3em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .status-bar {
-            background: rgba(255,255,255,0.95);
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .status-item {
-            text-align: center;
-            padding: 15px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 12px;
-            color: white;
-            transition: transform 0.3s ease;
-        }
-
-        .status-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .status-value {
-            font-size: 2em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .tabs {
+        nav {
             display: flex;
-            background: rgba(255,255,255,0.95);
-            border-radius: 15px;
-            padding: 5px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .tab-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            background: transparent;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
         }
 
-        .tab-content {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            min-height: 600px;
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
         }
 
-        .tab-pane {
-            display: none;
+        .nav-links a:hover {
+            color: #667eea;
         }
 
-        .tab-pane.active {
-            display: block;
-        }
-
-        .upload-area {
-            border: 3px dashed #4facfe;
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .upload-area:hover {
-            background: rgba(79, 172, 254, 0.1);
-            transform: scale(1.02);
-        }
-
-        .upload-area.dragover {
-            background: rgba(79, 172, 254, 0.2);
-            border-color: #00f2fe;
+        .user-actions {
+            display: flex;
+            gap: 1rem;
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 0.7rem 1.5rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 1em;
             font-weight: 600;
-            transition: all 0.3s ease;
-            margin: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
         }
 
-        .btn-primary:hover {
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-success {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
             color: white;
+            margin-bottom: 3rem;
         }
 
-        .btn-danger {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #4facfe;
-        }
-
-        .file-list {
-            margin-top: 20px;
-        }
-
-        .file-item {
-            background: white;
-            border: 1px solid #e1e5e9;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .file-item:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
-        }
-
-        .file-info {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .file-meta {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .file-actions {
-            display: flex;
-            gap: 10px;
+        /* Search Bar */
+        .search-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .search-bar {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 15px;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .search-bar:focus {
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
             outline: none;
-            border-color: #4facfe;
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.2);
+            transition: border-color 0.3s;
         }
 
-        .grid {
+        .search-input:focus {
+            border-color: #667eea;
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Product Grid */
+        .products-section h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        .price-tag {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 8px 15px;
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .reputation {
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
             display: flex;
             align-items: center;
-            gap: 5px;
-            color: #ffa500;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e1e5e9;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
+        .product-info {
+            padding: 1.5rem;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            transition: width 0.3s ease;
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
         }
 
+        .product-author {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 25px;
+        }
+
+        /* Modal */
         .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(5px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            z-index: 2000;
         }
 
         .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: white;
+            padding: 2rem;
             border-radius: 20px;
-            padding: 40px;
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
         }
 
-        .close-btn {
-            float: right;
-            font-size: 1.5em;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             cursor: pointer;
             color: #999;
         }
 
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: white;
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
             border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 1001;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
         }
 
-        .notification.show {
-            transform: translateX(0);
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #667eea;
         }
 
-        .peer-list {
-            background: rgba(255,255,255,0.1);
+        /* Escrow Status */
+        .escrow-status {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+        }
+
+        .rating-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 0.9rem;
+        }
+
+        .review-card {
+            background: #f8f9fa;
+            padding: 1rem;
             border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
         }
 
-        .peer-item {
-            background: rgba(255,255,255,0.2);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
+        .review-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 0.5rem;
         }
 
-        .online-indicator {
-            width: 10px;
-            height: 10px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .reviewer-name {
+            font-weight: 600;
+            color: #333;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .review-date {
+            font-size: 0.8rem;
+            color: #666;
         }
 
-        .encryption-badge {
-            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+        .review-stars {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-comment {
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .feedback-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .star-rating {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        .star-rating:hover,
+        .star-rating.active {
+            color: #ffd700;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.8em;
-            font-weight: bold;
+            padding: 1rem;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            font-weight: 600;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .status-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .tabs {
-                flex-direction: column;
-                gap: 5px;
-            }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+            min-height: 200px;
+            max-height: 250px;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .message.buyer {
+            justify-content: flex-end;
+        }
+
+        .message.seller {
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .message.buyer .message-bubble {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .message.seller .message-bubble {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            resize: none;
+        }
+
+        .chat-send-btn {
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .terms-modal-content {
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .terms-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #fdcb6e;
+        }
+
+        .danger-box {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .video-proof-section {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            transform: scale(1.2);
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: #28a745;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📚 StudyMesh</h1>
-            <p>Decentralized P2P Study Material Sharing Platform</p>
-        </div>
+    <header>
+        <nav class="container">
+            <div class="logo">EduXchange</div>
+            <ul class="nav-links">
+                <li><a href="#home" onclick="showHome()">Home</a></li>
+                <li><a href="#buy" onclick="showBuy()">Buy</a></li>
+                <li><a href="#sell" onclick="openSellModal()">Sell</a></li>
+                <li><a href="#about" onclick="showAbout()">About</a></li>
+                <li><a href="#contact" onclick="showContact()">Contact</a></li>
+            </ul>
+            <div class="user-actions">
+                <button class="btn btn-secondary" onclick="openLoginModal()">Login</button>
+                <button class="btn btn-primary" onclick="openRegisterModal()">Sign Up</button>
+            </div>
+        </nav>
+    </header>
 
-        <div class="status-bar">
-            <div class="status-grid">
-                <div class="status-item">
-                    <span class="status-value" id="connectedPeers">3</span>
-                    <span>Connected Peers</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-value" id="filesShared">12</span>
-                    <span>Files Shared</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-value" id="totalStorage">2.4GB</span>
-                    <span>Storage Used</span>
-                </div>
-                <div class="status-item">
-                    <span class="status-value" id="reputation">4.8★</span>
-                    <span>Your Reputation</span>
+    <main class="container" id="mainContent">
+        <!-- Home Section -->
+        <section class="home-page" id="homeSection">
+            <div class="hero">
+                <h1>Welcome to EduXchange</h1>
+                <p>The secure marketplace for students to buy and sell educational materials with fraud-free transactions</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showBuy()">🛒 Start Shopping</button>
+                    <button class="btn btn-secondary" onclick="openSellModal()">💰 Sell Items</button>
                 </div>
             </div>
-        </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('share')">📤 Share Files</button>
-            <button class="tab-btn" onclick="switchTab('discover')">🔍 Discover</button>
-            <button class="tab-btn" onclick="switchTab('library')">📚 My Library</button>
-            <button class="tab-btn" onclick="switchTab('peers')">🌐 Network</button>
-            <button class="tab-btn" onclick="switchTab('blockchain')">⛓️ Blockchain</button>
-        </div>
-
-        <div class="tab-content">
-            <!-- Share Files Tab -->
-            <div id="share" class="tab-pane active">
-                <div class="upload-area" onclick="document.getElementById('fileInput').click()" ondrop="handleDrop(event)" ondragover="handleDragOver(event)">
-                    <h3>📁 Drop files here or click to browse</h3>
-                    <p>Support for PDFs, images, documents, and more</p>
-                    <p><span class="encryption-badge">🔒 AES-256 Encrypted</span></p>
-                    <input type="file" id="fileInput" style="display: none;" multiple onchange="handleFileSelect(event)">
-                </div>
-
-                <div class="form-group">
-                    <label>File Title:</label>
-                    <input type="text" id="fileTitle" placeholder="e.g., Advanced Calculus Notes">
-                </div>
-
-                <div class="form-group">
-                    <label>Category:</label>
-                    <select id="fileCategory">
-                        <option value="mathematics">Mathematics</option>
-                        <option value="physics">Physics</option>
-                        <option value="chemistry">Chemistry</option>
-                        <option value="biology">Biology</option>
-                        <option value="computer-science">Computer Science</option>
-                        <option value="literature">Literature</option>
-                        <option value="history">History</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Price (ETH):</label>
-                    <input type="number" id="filePrice" placeholder="0.001" step="0.001" min="0">
-                </div>
-
-                <div class="form-group">
-                    <label>Description:</label>
-                    <textarea id="fileDescription" rows="3" placeholder="Detailed notes covering chapters 1-5..."></textarea>
-                </div>
-
-                <button class="btn btn-primary" onclick="shareFile()">🚀 Share to Network</button>
-
-                <div class="file-list" id="uploadedFiles"></div>
-            </div>
-
-            <!-- Discover Tab -->
-            <div id="discover" class="tab-pane">
-                <input type="text" class="search-bar" placeholder="🔍 Search study materials..." id="searchInput" oninput="searchFiles()">
+            <!-- Features Section -->
+            <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 3rem; border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 3rem; font-size: 2.5rem;">Why Choose EduXchange?</h2>
                 
-                <div class="form-group">
-                    <select id="categoryFilter" onchange="filterFiles()">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">🛡️</div>
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">100% Secure Transactions</h3>
+                        <p>Our escrow payment system holds your money safely until you confirm receipt. No more fraud or scams!</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">☁️</div>
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">Cloud-Based Storage</h3>
+                        <p>Digital materials like e-books and notes are securely stored and instantly accessible from anywhere.</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">One-Stop Platform</h3>
+                        <p>Books, notes, stationery, electronics, and academic tools - everything students need in one place.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 3rem; border-radius: 20px; margin-bottom: 3rem; text-align: center;">
+                <h2 style="margin-bottom: 2rem;">Join Thousands of Happy Students</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                    <div>
+                        <div style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">5000+</div>
+                        <p style="opacity: 0.9;">Active Users</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">15000+</div>
+                        <p style="opacity: 0.9;">Items Sold</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">4.8⭐</div>
+                        <p style="opacity: 0.9;">Average Rating</p>
+                    </div>
+                    <div>
+                        <div style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">99.9%</div>
+                        <p style="opacity: 0.9;">Safe Transactions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How it Works -->
+            <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 3rem; border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 3rem; font-size: 2.5rem;">How EduXchange Works</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">1</div>
+                        <h4 style="color: #667eea; margin-bottom: 1rem;">Browse & Search</h4>
+                        <p>Find the educational materials you need using our powerful search and filter system.</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">2</div>
+                        <h4 style="color: #667eea; margin-bottom: 1rem;">Secure Payment</h4>
+                        <p>Pay safely through our escrow system. Your money is held until you confirm receipt.</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45df, #667eea, #764ba2); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">3</div>
+                        <h4 style="color: #667eea; margin-bottom: 1rem;">Receive & Confirm</h4>
+                        <p>Get your items delivered safely and confirm receipt to release payment to the seller.</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; font-weight: bold;">4</div>
+                        <h4 style="color: #667eea; margin-bottom: 1rem;">Rate & Review</h4>
+                        <p>Share your experience to help other students make informed decisions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Categories -->
+            <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 3rem; border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 3rem; font-size: 2.5rem;">Popular Categories</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+                    <div onclick="showBuy(); filterByCategory('textbooks')" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s; hover: transform: scale(1.05);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+                        <h4>Textbooks</h4>
+                        <p style="opacity: 0.9;">Engineering, Medical, Commerce</p>
+                    </div>
+                    
+                    <div onclick="showBuy(); filterByCategory('notes')" style="background: linear-gradient(45deg, #764ba2, #667eea); color: white; padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+                        <h4>Notes</h4>
+                        <p style="opacity: 0.9;">Handwritten, Digital, Lectures</p>
+                    </div>
+                    
+                    <div onclick="showBuy(); filterByCategory('electronics')" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+                        <h4>Electronics</h4>
+                        <p style="opacity: 0.9;">Calculators, Tablets, Laptops</p>
+                    </div>
+                    
+                    <div onclick="showBuy(); filterByCategory('stationery')" style="background: linear-gradient(45deg, #764ba2, #667eea); color: white; padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✏️</div>
+                        <h4>Stationery</h4>
+                        <p style="opacity: 0.9;">Pens, Pencils, Notebooks</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Buy Section -->
+        <section class="buy-page" id="buySection" style="display: none;">
+            <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 2rem; border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                <h1 style="text-align: center; color: #667eea; margin-bottom: 2rem; font-size: 2.5rem;">🛒 Browse & Buy</h1>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search for books, notes, stationery..." id="searchInput">
+                    <button class="search-btn" onclick="searchProducts()">🔍 Search</button>
+                </div>
+                
+                <div class="filters">
+                    <select class="filter-select" id="categoryFilter">
                         <option value="">All Categories</option>
-                        <option value="mathematics">Mathematics</option>
-                        <option value="physics">Physics</option>
-                        <option value="chemistry">Chemistry</option>
-                        <option value="biology">Biology</option>
-                        <option value="computer-science">Computer Science</option>
-                        <option value="literature">Literature</option>
-                        <option value="history">History</option>
+                        <option value="textbooks">Textbooks</option>
+                        <option value="notes">Notes</option>
+                        <option value="stationery">Stationery</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="tools">Tools</option>
+                    </select>
+                    <select class="filter-select" id="priceFilter">
+                        <option value="">All Prices</option>
+                        <option value="0-500">₹0 - ₹500</option>
+                        <option value="500-1000">₹500 - ₹1000</option>
+                        <option value="1000-2000">₹1000 - ₹2000</option>
+                        <option value="2000+">₹2000+</option>
+                    </select>
+                    <select class="filter-select" id="conditionFilter">
+                        <option value="">All Conditions</option>
+                        <option value="new">New</option>
+                        <option value="like-new">Like New</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                    </select>
+                    <button class="btn btn-secondary btn-small" onclick="clearFilters()" style="margin-left: 1rem;">Clear Filters</button>
+                </div>
+            </div>
+
+            <div class="products-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 style="color: white; font-size: 2rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Available Products</h2>
+                    <div style="display: flex; gap: 1rem;">
+                        <select id="sortFilter" onchange="applySorting()" style="padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 25px; background: white;">
+                            <option value="">Sort by</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be populated by JavaScript -->
+                </div>
+                <div id="noResults" style="display: none; text-align: center; color: white; padding: 2rem;">
+                    <h3>No products found matching your criteria</h3>
+                    <p>Try adjusting your search or filters</p>
+                    <button class="btn btn-primary" onclick="clearFilters()">Clear Filters</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="aboutSection" style="display: none;">
+            <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 3rem; border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 2rem; font-size: 2.5rem;">About EduXchange</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">🎯 Our Mission</h3>
+                        <p>At EduXchange, our mission is to make learning and teaching accessible to all. Every learner and educator should have the freedom to share, access, and benefit from knowledge the way they deserve.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">🔒 Why Choose Us</h3>
+                        <p>We provide a secure, fraud-free marketplace specifically designed for students. Our escrow payment system ensures safe transactions while our cloud-based platform manages digital assets securely.</p>
+                    </div>
+                </div>
+                
+                <h3 style="color: #667eea; margin-bottom: 1.5rem; text-align: center;">🚀 Key Features</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; border-left: 4px solid #667eea;">
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">🛡️ Escrow Payment System</h4>
+                        <p>Your payment is held securely until both buyer and seller confirm the transaction, ensuring fraud-free exchanges.</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; border-left: 4px solid #764ba2;">
+                        <h4 style="color: #764ba2; margin-bottom: 0.5rem;">☁️ Cloud-Based Management</h4>
+                        <p>Digital materials like e-books and notes are securely stored and managed on our cloud infrastructure.</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; border-left: 4px solid #667eea;">
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">🛍️ One-Stop Platform</h4>
+                        <p>Books, notes, stationery, electronics, and academic tools - all in one convenient marketplace.</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; border-left: 4px solid #764ba2;">
+                        <h4 style="color: #764ba2; margin-bottom: 0.5rem;">⭐ Trust & Reviews</h4>
+                        <p>Our comprehensive review system helps you make informed decisions based on real student experiences.</p>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2rem; border-radius: 15px; margin-top: 2rem; text-align: center;">
+                    <h3 style="margin-bottom: 1rem;">🇮🇳 Supporting Atmanirbhar Bharat</h3>
+                    <p>EduXchange is proudly contributing to the vision of Atmanirbhar Bharat by empowering students with a homegrown, secure marketplace that promotes self-reliance in education.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section" id="contactSection" style="display: none;">
+            <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 3rem; border-radius: 20px; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 2rem; font-size: 2.5rem;">Contact Team Curio Coders</h2>
+                
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <p style="font-size: 1.1rem; color: #666;">Smart India Hackathon 2025 - Problem Statement SIH25140</p>
+                    <p style="font-size: 1.1rem; color: #666;">Student Innovation: Swadeshi for Atmanirbhar Bharat</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                    <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍💼</div>
+                        <h3>Rohan Bisht</h3>
+                        <p style="opacity: 0.9;">Project Manager</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Leading the project strategy and team coordination</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(45deg, #764ba2, #667eea); color: white; padding: 2rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍💻</div>
+                        <h3>Ritik Asija</h3>
+                        <p style="opacity: 0.9;">Frontend Developer</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Creating beautiful and intuitive user interfaces</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">💰</div>
+                        <h3>Sahil Pathan</h3>
+                        <p style="opacity: 0.9;">FinOps Specialist</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Managing financial operations and payment systems</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(45deg, #764ba2, #667eea); color: white; padding: 2rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚙️</div>
+                        <h3>Rishi Kumar</h3>
+                        <p style="opacity: 0.9;">Backend Developer</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Building robust server-side architecture</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 2rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎤</div>
+                        <h3>Khushi Kumari</h3>
+                        <p style="opacity: 0.9;">Presenter & Tester</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Ensuring quality and presenting our vision</p>
+                    </div>
+                    
+                    <div style="background: linear-gradient(45deg, #764ba2, #667eea); color: white; padding: 2rem; border-radius: 15px; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
+                        <h3>Muskan Kumari</h3>
+                        <p style="opacity: 0.9;">Presenter & Frontend Developer</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Crafting user experiences and presentations</p>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                    <h3 style="color: #667eea; text-align: center; margin-bottom: 1.5rem;">💬 Get in Touch</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; text-align: center;">
+                        <div>
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📧</div>
+                            <p><strong>Email</strong></p>
+                            <p style="color: #667eea;">curio.coders@sih2025.in</p>
+                        </div>
+                        <div>
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌐</div>
+                            <p><strong>Project Repository</strong></p>
+                            <p style="color: #667eea;">github.com/curio-coders/eduxchange</p>
+                        </div>
+                        <div>
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📱</div>
+                            <p><strong>Demo</strong></p>
+                            <p style="color: #667eea;">Live prototype available</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div style="background: linear-gradient(45deg, #667eea, #764ba2); padding: 2rem; border-radius: 15px;">
+                    <h3 style="color: white; text-align: center; margin-bottom: 1.5rem;">📝 Send us a Message</h3>
+                    <form onsubmit="sendMessage(event)" style="display: grid; gap: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <input type="text" id="contactName" placeholder="Your Name" required style="padding: 1rem; border: none; border-radius: 10px; outline: none;">
+                            <input type="email" id="contactEmail" placeholder="Your Email" required style="padding: 1rem; border: none; border-radius: 10px; outline: none;">
+                        </div>
+                        <input type="text" id="contactSubject" placeholder="Subject" required style="padding: 1rem; border: none; border-radius: 10px; outline: none;">
+                        <textarea id="contactMessage" rows="5" placeholder="Your Message" required style="padding: 1rem; border: none; border-radius: 10px; outline: none; resize: vertical;"></textarea>
+                        <button type="submit" class="btn btn-secondary" style="background: white; color: #667eea; border: none;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 EduXchange - Curio Coders. Making education accessible for all students.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to EduXchange</h2>
+                <button class="close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Join EduXchange</h2>
+                <button class="close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="regName">Full Name:</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email:</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPhone">Phone Number:</label>
+                    <input type="tel" id="regPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="regCollege">College/University:</label>
+                    <input type="text" id="regCollege" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password:</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sell Item Modal -->
+    <div class="modal" id="sellModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sell Your Item</h2>
+                <button class="close" onclick="closeModal('sellModal')">&times;</button>
+            </div>
+            <form onsubmit="handleSell(event)">
+                <div class="form-group">
+                    <label for="itemTitle">Item Title:</label>
+                    <input type="text" id="itemTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCategory">Category:</label>
+                    <select id="itemCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="textbooks">Textbooks</option>
+                        <option value="notes">Notes</option>
+                        <option value="stationery">Stationery</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="tools">Tools</option>
                     </select>
                 </div>
-
-                <div class="grid" id="discoveredFiles"></div>
-            </div>
-
-            <!-- My Library Tab -->
-            <div id="library" class="tab-pane">
-                <h3>📚 Your Downloaded Materials</h3>
-                <div class="grid" id="libraryFiles"></div>
-            </div>
-
-            <!-- Network Tab -->
-            <div id="peers" class="tab-pane">
-                <h3>🌐 Network Status</h3>
-                <div class="peer-list">
-                    <h4>Connected Peers:</h4>
-                    <div id="peersList"></div>
+                <div class="form-group">
+                    <label for="itemAuthor">Author/Brand:</label>
+                    <input type="text" id="itemAuthor">
                 </div>
-                
-                <h3>📡 Mesh Network Map</h3>
-                <canvas id="networkCanvas" width="800" height="400" style="border: 1px solid #ddd; border-radius: 10px; width: 100%; max-width: 800px;"></canvas>
-                
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="scanForPeers()">🔍 Scan for Peers</button>
-                    <button class="btn btn-success" onclick="createMeshNode()">📡 Create Mesh Node</button>
+                <div class="form-group">
+                    <label for="itemPrice">Price (₹):</label>
+                    <input type="number" id="itemPrice" min="1" required>
                 </div>
-            </div>
-
-            <!-- Blockchain Tab -->
-            <div id="blockchain" class="tab-pane">
-                <h3>⛓️ Blockchain Transactions</h3>
-                <div id="blockchainData"></div>
-                
-                <h3>💰 Escrow Transactions</h3>
-                <div id="escrowTransactions"></div>
-                
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="mineBlock()">⛏️ Mine Block</button>
-                    <button class="btn btn-success" onclick="validateChain()">✅ Validate Chain</button>
+                <div class="form-group">
+                    <label for="itemCondition">Condition:</label>
+                    <select id="itemCondition" required>
+                        <option value="">Select Condition</option>
+                        <option value="new">New</option>
+                        <option value="like-new">Like New</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                    </select>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="itemDescription">Description:</label>
+                    <textarea id="itemDescription" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">List Item</button>
+            </form>
         </div>
     </div>
 
     <!-- Purchase Modal -->
-    <div id="purchaseModal" class="modal">
+    <div class="modal" id="purchaseModal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closePurchaseModal()">&times;</span>
-            <h3>💳 Purchase File</h3>
-            <div id="purchaseDetails"></div>
-            <button class="btn btn-success" onclick="completePurchase()">Complete Purchase</button>
+            <div class="modal-header">
+                <h2>Secure Purchase</h2>
+                <button class="close" onclick="closeModal('purchaseModal')">&times;</button>
+            </div>
+            <div id="purchaseContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
         </div>
     </div>
 
-    <!-- Notification -->
-    <div id="notification" class="notification"></div>
+    <div class="notification" id="notification"></div>
 
     <script>
-        // Global state
-        let peers = [];
-        let sharedFiles = [];
-        let discoveredFiles = [];
-        let libraryFiles = [];
-        let blockchain = [];
-        let pendingTransactions = [];
-        let currentUser = {
-            id: 'user_' + Math.random().toString(36).substr(2, 9),
-            reputation: 4.8,
-            balance: 0.5
+        // Sample products data
+        let products = [
+            {
+                id: 1,
+                title: "Engineering Mathematics",
+                author: "B.S. Grewal",
+                price: 450,
+                category: "textbooks",
+                condition: "good",
+                description: "Complete mathematics textbook for engineering students",
+                seller: "Rahul Kumar",
+                sellerRating: 4.8,
+                totalReviews: 23,
+                image: "📚"
+            },
+            {
+                id: 2,
+                title: "Data Structures Notes",
+                author: "Class Notes",
+                price: 200,
+                category: "notes",
+                condition: "new",
+                description: "Comprehensive handwritten notes on data structures",
+                seller: "Priya Singh",
+                sellerRating: 4.9,
+                totalReviews: 15,
+                image: "📝"
+            },
+            {
+                id: 3,
+                title: "Scientific Calculator",
+                author: "Casio",
+                price: 800,
+                category: "electronics",
+                condition: "like-new",
+                description: "Casio FX-991ES Plus scientific calculator",
+                seller: "Amit Sharma",
+                sellerRating: 4.6,
+                totalReviews: 31,
+                image: "🧮"
+            },
+            {
+                id: 4,
+                title: "Mechanical Pencil Set",
+                author: "Pilot",
+                price: 150,
+                category: "stationery",
+                condition: "new",
+                description: "Set of 3 mechanical pencils with extra leads",
+                seller: "Sneha Patel",
+                sellerRating: 4.7,
+                totalReviews: 12,
+                image: "✏️"
+            },
+            {
+                id: 5,
+                title: "Physics Lab Manual",
+                author: "Dr. R.K. Shukla",
+                price: 300,
+                category: "textbooks",
+                condition: "good",
+                description: "Complete physics lab manual with experiments",
+                seller: "Vikash Yadav",
+                sellerRating: 4.5,
+                totalReviews: 18,
+                image: "🔬"
+            },
+            {
+                id: 6,
+                title: "Chemistry Notes PDF",
+                author: "Digital Notes",
+                price: 100,
+                category: "notes",
+                condition: "new",
+                description: "Digital chemistry notes for JEE preparation",
+                seller: "Anjali Gupta",
+                sellerRating: 5.0,
+                totalReviews: 8,
+                image: "💻"
+            }
+        ];
+
+        let currentUser = null;
+        let filteredProducts = [...products];
+        let currentChatProduct = null;
+        let chatMessages = [];
+        
+        // Sample chat messages for demonstration
+        let sampleChatMessages = {
+            1: [
+                {
+                    sender: 'seller',
+                    message: 'Hi! Thanks for your interest in the Engineering Mathematics book.',
+                    time: '2:30 PM'
+                },
+                {
+                    sender: 'seller',
+                    message: 'The book is in good condition with some highlighting but all pages are intact.',
+                    time: '2:31 PM'
+                }
+            ],
+            2: [
+                {
+                    sender: 'seller',
+                    message: 'Hello! These are my personal notes from last semester.',
+                    time: '1:45 PM'
+                },
+                {
+                    sender: 'seller',
+                    message: 'They cover all topics comprehensively. Would you like to meet at the campus library?',
+                    time: '1:46 PM'
+                }
+            ]
         };
+        
+        // Feedback and Reviews Data
+        let reviews = [
+            {
+                productId: 1,
+                reviewerName: "Sanjay Kumar",
+                rating: 5,
+                comment: "Excellent condition book! Very helpful for my engineering studies. Fast delivery too.",
+                date: "2025-01-15"
+            },
+            {
+                productId: 1,
+                reviewerName: "Neha Sharma",
+                rating: 4,
+                comment: "Good book, some highlighting but still very useful. Seller was responsive.",
+                date: "2025-01-10"
+            },
+            {
+                productId: 2,
+                reviewerName: "Rohit Verma",
+                rating: 5,
+                comment: "Amazing handwritten notes! Very clear and comprehensive. Worth every penny.",
+                date: "2025-01-18"
+            },
+            {
+                productId: 3,
+                reviewerName: "Kavya Reddy",
+                rating: 4,
+                comment: "Calculator works perfectly. Minor scratches but functions are all good.",
+                date: "2025-01-12"
+            },
+            {
+                productId: 4,
+                reviewerName: "Arjun Singh",
+                rating: 5,
+                comment: "Brand new pencils as described. Great quality and fast shipping!",
+                date: "2025-01-14"
+            }
+        ];
 
         // Initialize the application
-        function init() {
-            generateMockData();
-            renderDiscoveredFiles();
-            renderPeers();
-            drawNetworkMap();
-            renderBlockchain();
-            startP2PSimulation();
+        document.addEventListener('DOMContentLoaded', function() {
+            showHome(); // Show home page by default
+            setupFilters();
+        });
+
+        // Generate star display
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let stars = '';
             
-            // Update status periodically
-            setInterval(updateStatus, 3000);
-        }
-
-        // Tab switching
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tabName).classList.add('active');
-        }
-
-        // File handling
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.target.classList.add('dragover');
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            e.target.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            processFiles(files);
-        }
-
-        function handleFileSelect(e) {
-            processFiles(e.target.files);
-        }
-
-        function processFiles(files) {
-            for (let file of files) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const fileData = {
-                        id: 'file_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-                        name: file.name,
-                        size: file.size,
-                        type: file.type,
-                        data: e.target.result,
-                        hash: generateHash(e.target.result),
-                        uploadDate: new Date()
-                    };
-                    
-                    displayUploadedFile(fileData);
-                };
-                reader.readAsDataURL(file);
+            for (let i = 0; i < fullStars; i++) {
+                stars += '⭐';
             }
+            
+            if (hasHalfStar) {
+                stars += '⭐'; // Using full star for simplicity
+            }
+            
+            return stars;
         }
 
-        function shareFile() {
-            const title = document.getElementById('fileTitle').value;
-            const category = document.getElementById('fileCategory').value;
-            const price = document.getElementById('filePrice').value;
-            const description = document.getElementById('fileDescription').value;
+        // Render products in the grid
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (!grid) return; // Grid might not exist on home page
+            
+            grid.innerHTML = '';
 
-            if (!title) {
-                showNotification('Please enter a file title', 'error');
+            if (filteredProducts.length === 0) {
+                if (noResults) noResults.style.display = 'block';
                 return;
+            } else {
+                if (noResults) noResults.style.display = 'none';
             }
 
-            const uploadedFileElements = document.querySelectorAll('#uploadedFiles .file-item');
-            if (uploadedFileElements.length === 0) {
-                showNotification('Please select a file to share', 'error');
-                return;
-            }
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-author">by ${product.author}</p>
+                        <div class="seller-info" style="margin: 0.5rem 0;">
+                            <p style="font-size: 0.9rem; color: #666;">Seller: ${product.seller}</p>
+                            <div class="rating-display">
+                                <span class="stars">${generateStars(product.sellerRating)}</span>
+                                <span style="font-size: 0.9rem; color: #666;">${product.sellerRating}/5 (${product.totalReviews} reviews)</span>
+                            </div>
+                        </div>
+                        <p class="product-price">₹${product.price}</p>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-small" onclick="initiateSecurePurchase(${product.id})">
+                                🔒 Secure Buy
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="viewDetails(${product.id})">
+                                View Details
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="openChat(${product.id})" style="background: #28a745; color: white; border: none;">
+                                💬 Chat
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(productCard);
+            });
+        }
 
-            // Create blockchain record
-            const blockchainRecord = {
-                id: 'tx_' + Date.now(),
-                type: 'file_share',
-                fileHash: generateHash(title + Date.now()),
-                title: title,
-                category: category,
-                price: parseFloat(price) || 0,
-                description: description,
-                seller: currentUser.id,
-                timestamp: new Date(),
-                verified: true
-            };
+        // Setup filter functionality
+        function setupFilters() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            const conditionFilter = document.getElementById('conditionFilter');
 
-            blockchain.push(blockchainRecord);
-            
-            // Add to discovered files
-            discoveredFiles.push({
-                ...blockchainRecord,
-                downloads: Math.floor(Math.random() * 100),
-                rating: (Math.random() * 2 + 3).toFixed(1)
+            [categoryFilter, priceFilter, conditionFilter].forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const category = document.getElementById('categoryFilter').value;
+            const priceRange = document.getElementById('priceFilter').value;
+            const condition = document.getElementById('conditionFilter').value;
+
+            filteredProducts = products.filter(product => {
+                const matchesCategory = !category || product.category === category;
+                const matchesCondition = !condition || product.condition === condition;
+                
+                let matchesPrice = true;
+                if (priceRange) {
+                    if (priceRange === '0-500') {
+                        matchesPrice = product.price >= 0 && product.price <= 500;
+                    } else if (priceRange === '500-1000') {
+                        matchesPrice = product.price > 500 && product.price <= 1000;
+                    } else if (priceRange === '1000-2000') {
+                        matchesPrice = product.price > 1000 && product.price <= 2000;
+                    } else if (priceRange === '2000+') {
+                        matchesPrice = product.price > 2000;
+                    }
+                }
+
+                return matchesCategory && matchesPrice && matchesCondition;
             });
 
-            showNotification('File shared successfully to the network!', 'success');
-            renderDiscoveredFiles();
-            renderBlockchain();
+            renderProducts();
+        }
+
+        // Search functionality
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
-            // Clear form
-            document.getElementById('fileTitle').value = '';
-            document.getElementById('filePrice').value = '';
-            document.getElementById('fileDescription').value = '';
-            document.getElementById('uploadedFiles').innerHTML = '';
-        }
-
-        function displayUploadedFile(fileData) {
-            const fileList = document.getElementById('uploadedFiles');
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
-            fileItem.innerHTML = `
-                <div class="file-info">
-                    <div class="file-name">${fileData.name}</div>
-                    <div class="file-meta">
-                        Size: ${formatFileSize(fileData.size)} | 
-                        Hash: ${fileData.hash.substr(0, 12)}... |
-                        <span class="encryption-badge">🔒 Encrypted</span>
-                    </div>
-                </div>
-                <div class="file-actions">
-                    <button class="btn btn-danger" onclick="removeUploadedFile(this)">Remove</button>
-                </div>
-            `;
-            fileList.appendChild(fileItem);
-        }
-
-        function removeUploadedFile(button) {
-            button.closest('.file-item').remove();
-        }
-
-        // Search and filter
-        function searchFiles() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            renderDiscoveredFiles(query);
-        }
-
-        function filterFiles() {
-            const category = document.getElementById('categoryFilter').value;
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            renderDiscoveredFiles(query, category);
-        }
-
-        function renderDiscoveredFiles(searchQuery = '', categoryFilter = '') {
-            const container = document.getElementById('discoveredFiles');
-            let filteredFiles = discoveredFiles;
-
-            if (searchQuery) {
-                filteredFiles = filteredFiles.filter(file => 
-                    file.title.toLowerCase().includes(searchQuery) ||
-                    file.description.toLowerCase().includes(searchQuery)
+            if (!searchTerm) {
+                filteredProducts = [...products];
+            } else {
+                filteredProducts = products.filter(product => 
+                    product.title.toLowerCase().includes(searchTerm) ||
+                    product.author.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm)
                 );
             }
-
-            if (categoryFilter) {
-                filteredFiles = filteredFiles.filter(file => file.category === categoryFilter);
-            }
-
-            container.innerHTML = filteredFiles.map(file => `
-                <div class="card">
-                    <div class="price-tag">💰 ${file.price} ETH</div>
-                    <h3>${file.title}</h3>
-                    <p><strong>Category:</strong> ${formatCategory(file.category)}</p>
-                    <p>${file.description}</p>
-                    <div style="margin: 15px 0;">
-                        <div class="reputation">
-                            <span>⭐ ${file.rating}</span>
-                            <span style="margin-left: 15px;">📥 ${file.downloads} downloads</span>
-                        </div>
-                        <p><strong>Seller:</strong> ${file.seller}</p>
-                        <p><strong>Hash:</strong> ${file.fileHash.substr(0, 16)}...</p>
-                    </div>
-                    <button class="btn btn-primary" onclick="purchaseFile('${file.id}')">
-                        💳 Purchase & Download
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function purchaseFile(fileId) {
-            const file = discoveredFiles.find(f => f.id === fileId);
-            if (!file) return;
-
-            document.getElementById('purchaseDetails').innerHTML = `
-                <h4>${file.title}</h4>
-                <p><strong>Price:</strong> ${file.price} ETH</p>
-                <p><strong>Seller:</strong> ${file.seller}</p>
-                <p><strong>Your Balance:</strong> ${currentUser.balance} ETH</p>
-                <p><strong>Description:</strong> ${file.description}</p>
-                <div style="margin: 20px 0;">
-                    <h5>🔐 Smart Contract Escrow</h5>
-                    <p>Payment will be held in escrow until file is verified and downloaded.</p>
-                </div>
-            `;
-
-            document.getElementById('purchaseModal').style.display = 'flex';
-            document.getElementById('purchaseModal').dataset.fileId = fileId;
-        }
-
-        function closePurchaseModal() {
-            document.getElementById('purchaseModal').style.display = 'none';
-        }
-
-        function completePurchase() {
-            const fileId = document.getElementById('purchaseModal').dataset.fileId;
-            const file = discoveredFiles.find(f => f.id === fileId);
             
-            if (currentUser.balance < file.price) {
-                showNotification('Insufficient balance!', 'error');
+            renderProducts();
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openLoginModal() {
+            openModal('loginModal');
+        }
+
+        function openRegisterModal() {
+            openModal('registerModal');
+        }
+
+        function openSellModal() {
+            openModal('sellModal');
+        }
+
+        // Handle login
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            
+            // Simulate login
+            currentUser = {
+                name: "Student User",
+                email: email
+            };
+            
+            updateAuthButtons();
+            closeModal('loginModal');
+            showNotification('Login successful! Welcome to EduXchange');
+        }
+
+        // Handle registration
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            
+            // Simulate registration
+            currentUser = {
+                name: name,
+                email: email
+            };
+            
+            updateAuthButtons();
+            closeModal('registerModal');
+            showNotification('Registration successful! Welcome to EduXchange');
+        }
+
+        // Handle selling
+        function handleSell(event) {
+            event.preventDefault();
+            
+            const newProduct = {
+                id: products.length + 1,
+                title: document.getElementById('itemTitle').value,
+                author: document.getElementById('itemAuthor').value || 'Unknown',
+                price: parseInt(document.getElementById('itemPrice').value),
+                category: document.getElementById('itemCategory').value,
+                condition: document.getElementById('itemCondition').value,
+                description: document.getElementById('itemDescription').value,
+                seller: currentUser ? currentUser.name : 'Anonymous',
+                sellerRating: 5.0,
+                totalReviews: 0,
+                image: getCategoryIcon(document.getElementById('itemCategory').value)
+            };
+            
+            products.push(newProduct);
+            filteredProducts = [...products];
+            renderProducts();
+            closeModal('sellModal');
+            showNotification('Item listed successfully!');
+            
+            // Reset form
+            document.querySelector('#sellModal form').reset();
+        }
+
+        // Get category icon
+        function getCategoryIcon(category) {
+            const icons = {
+                'textbooks': '📚',
+                'notes': '📝',
+                'stationery': '✏️',
+                'electronics': '📱',
+                'tools': '🔧'
+            };
+            return icons[category] || '📦';
+        }
+
+        // Initiate secure purchase
+        function initiateSecurePurchase(productId) {
+            if (!currentUser) {
+                showNotification('Please login to make a purchase');
+                openLoginModal();
                 return;
             }
-
-            // Create escrow transaction
-            const escrowTx = {
-                id: 'escrow_' + Date.now(),
-                buyer: currentUser.id,
-                seller: file.seller,
-                fileId: fileId,
-                amount: file.price,
-                status: 'pending',
-                timestamp: new Date()
-            };
-
-            pendingTransactions.push(escrowTx);
-            currentUser.balance -= file.price;
-
-            // Simulate file download
-            setTimeout(() => {
-                libraryFiles.push({
-                    ...file,
-                    downloadDate: new Date(),
-                    status: 'downloaded'
-                });
-
-                // Complete escrow
-                escrowTx.status = 'completed';
-                showNotification('File downloaded successfully!', 'success');
-                renderLibrary();
-                renderEscrowTransactions();
-            }, 2000);
-
-            showNotification('Purchase initiated! Downloading via P2P mesh...', 'success');
-            closePurchaseModal();
-        }
-
-        function renderLibrary() {
-            const container = document.getElementById('libraryFiles');
-            container.innerHTML = libraryFiles.map(file => `
-                <div class="card">
-                    <h3>${file.title}</h3>
-                    <p><strong>Category:</strong> ${formatCategory(file.category)}</p>
-                    <p><strong>Downloaded:</strong> ${file.downloadDate.toLocaleString()}</p>
-                    <div style="margin: 15px 0;">
-                        <span class="encryption-badge">🔒 Decrypted & Verified</span>
-                    </div>
-                    <button class="btn btn-primary" onclick="openFile('${file.id}')">
-                        📖 Open File
-                    </button>
-                    <button class="btn btn-success" onclick="shareToMesh('${file.id}')">
-                        📤 Share to Mesh
+            
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="product-info">
+                    <h3>${product.title}</h3>
+                    <p>by ${product.author}</p>
+                    <p><strong>Price: ₹${product.price}</strong></p>
+                    <p><strong>Seller: ${product.seller}</strong></p>
+                    <p>Condition: ${product.condition}</p>
+                </div>
+                
+                <div class="escrow-status">
+                    <h4>🔒 Escrow Payment Protection</h4>
+                    <p>Your payment will be held securely until both you and the seller confirm the transaction.</p>
+                    <div class="status-indicator status-pending">Step 1: Payment Pending</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="buyerAddress">Delivery Address:</label>
+                    <textarea id="buyerAddress" rows="3" placeholder="Enter your complete address" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method:</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="upi">UPI</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="netbanking">Net Banking</option>
+                        <option value="wallet">Digital Wallet</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processEscrowPayment(${productId})" style="width: 100%; margin-top: 1rem;">
+                    🔒 Pay ₹${product.price} (Secured by Escrow)
+                </button>
+                
+                <div style="text-align: center; margin-top: 1rem;">
+                    <button class="btn btn-secondary" onclick="showTermsAndConditions()" style="background: #e74c3c; color: white; border: none;">
+                        📋 Read Terms & Conditions (Required)
                     </button>
                 </div>
-            `).join('');
+            `;
+            
+            openModal('purchaseModal');
         }
 
-        // P2P Network simulation
-        function renderPeers() {
-            const container = document.getElementById('peersList');
-            container.innerHTML = peers.map(peer => `
-                <div class="peer-item">
-                    <div>
-                        <div class="online-indicator"></div>
-                        <strong>${peer.id}</strong>
-                        <span style="margin-left: 10px;">${peer.distance}m away</span>
-                    </div>
-                    <div>
-                        <span>${peer.filesShared} files</span>
-                        <span style="margin-left: 10px;">⭐ ${peer.reputation}</span>
+        // Process escrow payment
+        function processEscrowPayment(productId) {
+            const address = document.getElementById('buyerAddress').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            
+            if (!address || !paymentMethod) {
+                showNotification('Please fill all required fields');
+                return;
+            }
+            
+            const product = products.find(p => p.id === productId);
+            
+            // Simulate escrow payment process
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>🔒 Escrow Payment Status</h4>
+                    <div class="status-indicator status-confirmed">✓ Payment Received & Secured</div>
+                    <div class="status-indicator status-pending">⏳ Waiting for Seller Confirmation</div>
+                    <div class="status-indicator status-pending">⏳ Item Delivery Pending</div>
+                    
+                    <h4 style="margin-top: 1.5rem;">Transaction Details</h4>
+                    <p><strong>Transaction ID:</strong> TXN${Date.now()}</p>
+                    <p><strong>Amount Secured:</strong> ₹${product.price}</p>
+                    <p><strong>Seller Contact:</strong> Will be shared after confirmation</p>
+                    <p><strong>Estimated Delivery:</strong> 3-5 business days</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🛡️ How Escrow Protection Works:</h5>
+                        <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                            <li>Your payment is held securely by EduXchange</li>
+                            <li>Seller ships the item to your address</li>
+                            <li>You confirm receipt and condition</li>
+                            <li>Payment is released to seller only after your confirmation</li>
+                        </ul>
                     </div>
                 </div>
-            `).join('');
-        }
-
-        function drawNetworkMap() {
-            const canvas = document.getElementById('networkCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Set canvas size
-            canvas.width = 800;
-            canvas.height = 400;
-            
-            // Clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw nodes
-            const nodePositions = [
-                { x: 400, y: 200, label: 'You', color: '#4facfe' },
-                { x: 300, y: 150, label: 'Peer 1', color: '#4ade80' },
-                { x: 500, y: 100, label: 'Peer 2', color: '#f093fb' },
-                { x: 250, y: 280, label: 'Peer 3', color: '#ffa500' },
-                { x: 550, y: 250, label: 'Peer 4', color: '#4ecdc4' }
-            ];
-
-            // Draw connections
-            ctx.strokeStyle = '#4facfe';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 5]);
-            
-            // Draw lines between connected nodes
-            const connections = [
-                [0, 1], [0, 2], [0, 3], [1, 2], [2, 4], [3, 4]
-            ];
-            
-            connections.forEach(([from, to]) => {
-                ctx.beginPath();
-                ctx.moveTo(nodePositions[from].x, nodePositions[from].y);
-                ctx.lineTo(nodePositions[to].x, nodePositions[to].y);
-                ctx.stroke();
-            });
-            
-            ctx.setLineDash([]);
-            
-            // Draw nodes
-            nodePositions.forEach(node => {
-                ctx.fillStyle = node.color;
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, 20, 0, 2 * Math.PI);
-                ctx.fill();
                 
-                ctx.strokeStyle = '#fff';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-                
-                ctx.fillStyle = '#333';
-                ctx.font = '12px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(node.label, node.x, node.y + 35);
-            });
-        }
-
-        function scanForPeers() {
-            showNotification('Scanning for nearby peers...', 'info');
-            
-            setTimeout(() => {
-                const newPeer = {
-                    id: 'peer_' + Math.random().toString(36).substr(2, 6),
-                    distance: Math.floor(Math.random() * 500) + 50,
-                    filesShared: Math.floor(Math.random() * 20) + 1,
-                    reputation: (Math.random() * 2 + 3).toFixed(1),
-                    lastSeen: new Date()
-                };
-                
-                peers.push(newPeer);
-                renderPeers();
-                drawNetworkMap();
-                updateStatus();
-                showNotification(`New peer discovered: ${newPeer.id}`, 'success');
-            }, 1500);
-        }
-
-        function createMeshNode() {
-            showNotification('Creating mesh node beacon...', 'info');
-            
-            setTimeout(() => {
-                showNotification('Mesh node active! Broadcasting availability...', 'success');
-                // Simulate attracting new peers
-                setTimeout(() => {
-                    scanForPeers();
-                }, 2000);
-            }, 1000);
-        }
-
-        // Blockchain functions
-        function renderBlockchain() {
-            const container = document.getElementById('blockchainData');
-            container.innerHTML = `
-                <div style="margin-bottom: 20px;">
-                    <h4>Latest Blocks (${blockchain.length} total)</h4>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="simulateDelivery(${productId})" style="flex: 1;">
+                        📦 Simulate Delivery
+                    </button>
+                    <button class="btn btn-primary" onclick="closeModal('purchaseModal')" style="flex: 1;">
+                        Done
+                    </button>
                 </div>
-                ${blockchain.slice(-5).reverse().map((block, index) => `
-                    <div class="card">
-                        <h4>Block #${blockchain.length - index}</h4>
-                        <p><strong>Type:</strong> ${block.type}</p>
-                        <p><strong>File Hash:</strong> ${block.fileHash}</p>
-                        <p><strong>Title:</strong> ${block.title}</p>
-                        <p><strong>Price:</strong> ${block.price} ETH</p>
-                        <p><strong>Seller:</strong> ${block.seller}</p>
-                        <p><strong>Timestamp:</strong> ${block.timestamp.toLocaleString()}</p>
-                        <div style="margin-top: 10px;">
-                            ${block.verified ? '<span class="encryption-badge">✅ Verified</span>' : '<span style="color: #f5576c;">⏳ Pending</span>'}
+            `;
+            
+            showNotification('Payment secured! Seller will be notified.');
+        }
+        
+        // Simulate delivery process
+        function simulateDelivery(productId) {
+            const product = products.find(p => p.id === productId);
+            const content = document.getElementById('purchaseContent');
+            
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>🔒 Escrow Payment Status</h4>
+                    <div class="status-indicator status-completed">✓ Payment Secured</div>
+                    <div class="status-indicator status-completed">✓ Item Shipped</div>
+                    <div class="status-indicator status-confirmed">📦 Item Delivered</div>
+                    
+                    <h4 style="margin-top: 1.5rem;">Confirm Receipt</h4>
+                    <p>Please confirm that you have received the item in good condition:</p>
+                    
+                    <div class="form-group">
+                        <label>Rate your experience with the seller:</label>
+                        <div class="rating-input" id="sellerRatingInput">
+                            <span class="star-rating" onclick="setRating('seller', 1)">⭐</span>
+                            <span class="star-rating" onclick="setRating('seller', 2)">⭐</span>
+                            <span class="star-rating" onclick="setRating('seller', 3)">⭐</span>
+                            <span class="star-rating" onclick="setRating('seller', 4)">⭐</span>
+                            <span class="star-rating" onclick="setRating('seller', 5)">⭐</span>
                         </div>
                     </div>
-                `).join('')}
-            `;
-        }
-
-        function renderEscrowTransactions() {
-            const container = document.getElementById('escrowTransactions');
-            container.innerHTML = pendingTransactions.map(tx => `
-                <div class="card">
-                    <h4>Escrow Transaction</h4>
-                    <p><strong>ID:</strong> ${tx.id}</p>
-                    <p><strong>Buyer:</strong> ${tx.buyer}</p>
-                    <p><strong>Seller:</strong> ${tx.seller}</p>
-                    <p><strong>Amount:</strong> ${tx.amount} ETH</p>
-                    <p><strong>Status:</strong> ${tx.status}</p>
-                    <p><strong>Created:</strong> ${tx.timestamp.toLocaleString()}</p>
-                    <div style="margin-top: 15px;">
-                        ${tx.status === 'pending' ? 
-                            '<div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>' :
-                            '<span class="encryption-badge">✅ Completed</span>'
-                        }
+                    
+                    <div class="form-group">
+                        <label>Rate the item condition:</label>
+                        <div class="rating-input" id="itemRatingInput">
+                            <span class="star-rating" onclick="setRating('item', 1)">⭐</span>
+                            <span class="star-rating" onclick="setRating('item', 2)">⭐</span>
+                            <span class="star-rating" onclick="setRating('item', 3)">⭐</span>
+                            <span class="star-rating" onclick="setRating('item', 4)">⭐</span>
+                            <span class="star-rating" onclick="setRating('item', 5)">⭐</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Feedback (optional):</label>
+                        <textarea id="buyerFeedback" rows="3" placeholder="Share your experience with other buyers..."></textarea>
                     </div>
                 </div>
-            `).join('');
-        }
-
-        function mineBlock() {
-            showNotification('Mining new block...', 'info');
-            
-            setTimeout(() => {
-                const newBlock = {
-                    id: 'block_' + Date.now(),
-                    type: 'system',
-                    fileHash: generateHash('mining_' + Date.now()),
-                    title: 'System Block',
-                    category: 'system',
-                    price: 0,
-                    description: 'Mined block for network validation',
-                    seller: currentUser.id,
-                    timestamp: new Date(),
-                    verified: true
-                };
                 
-                blockchain.push(newBlock);
-                renderBlockchain();
-                showNotification('Block mined successfully! +0.001 ETH reward', 'success');
-                currentUser.balance += 0.001;
-                updateStatus();
-            }, 3000);
-        }
-
-        function validateChain() {
-            showNotification('Validating blockchain integrity...', 'info');
-            
-            setTimeout(() => {
-                const isValid = blockchain.every(block => block.verified);
-                if (isValid) {
-                    showNotification('Blockchain validation successful!', 'success');
-                } else {
-                    showNotification('Blockchain validation failed!', 'error');
-                }
-            }, 1500);
-        }
-
-        // Utility functions
-        function generateHash(data) {
-            return 'hash_' + btoa(data + Date.now()).substr(0, 32);
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function formatCategory(category) {
-            return category.split('-').map(word => 
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ');
-        }
-
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'} 
-                    <span>${message}</span>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="reportIssue(${productId})" style="flex: 1;">
+                        ⚠️ Report Issue
+                    </button>
+                    <button class="btn btn-primary" onclick="confirmDelivery(${productId})" style="flex: 1;">
+                        ✓ Confirm & Release Payment
+                    </button>
                 </div>
             `;
-            notification.classList.add('show');
+        }
+        
+        // Confirm delivery and release payment
+        function confirmDelivery(productId) {
+            const sellerRating = window.currentSellerRating || 5;
+            const itemRating = window.currentItemRating || 5;
+            const feedback = document.getElementById('buyerFeedback').value;
+            const product = products.find(p => p.id === productId);
             
+            // Add review to the reviews array
+            const newReview = {
+                productId: productId,
+                reviewerName: currentUser ? currentUser.name : 'Anonymous Buyer',
+                rating: itemRating,
+                comment: feedback || 'Great transaction!',
+                date: new Date().toISOString().split('T')[0]
+            };
+            reviews.push(newReview);
+            
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>✅ Transaction Completed Successfully!</h4>
+                    <div class="status-indicator status-completed">✓ Payment Released to Seller</div>
+                    <div class="status-indicator status-completed">✓ Feedback Submitted</div>
+                    <div class="status-indicator status-completed">✓ Transaction Closed</div>
+                    
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🎉 Thank you for using EduXchange!</h5>
+                        <p>Your payment of ₹${product.price} has been safely transferred to the seller.</p>
+                        <p><strong>Transaction ID:</strong> TXN${Date.now()}</p>
+                        <p><strong>Seller Rating:</strong> ${generateStars(sellerRating)} (${sellerRating}/5)</p>
+                        <p><strong>Item Rating:</strong> ${generateStars(itemRating)} (${itemRating}/5)</p>
+                        ${feedback ? `<p><strong>Your Review:</strong> "${feedback}"</p>` : ''}
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Your feedback helps other students make informed decisions!</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="closeModal('purchaseModal')" style="width: 100%; margin-top: 1rem;">
+                    Close
+                </button>
+            `;
+            
+            showNotification('Transaction completed! Thank you for your feedback.');
+        }
+        
+        // Set star rating
+        let currentSellerRating = 5;
+        let currentItemRating = 5;
+        
+        function setRating(type, rating) {
+            if (type === 'seller') {
+                currentSellerRating = rating;
+                window.currentSellerRating = rating;
+                updateStarDisplay('sellerRatingInput', rating);
+            } else if (type === 'item') {
+                currentItemRating = rating;
+                window.currentItemRating = rating;
+                updateStarDisplay('itemRatingInput', rating);
+            }
+        }
+        
+        function updateStarDisplay(containerId, rating) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const stars = container.querySelectorAll('.star-rating');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        // Report issue
+        function reportIssue(productId) {
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>⚠️ Report an Issue</h4>
+                    <p>We're sorry to hear you're experiencing an issue. Please describe the problem:</p>
+                    
+                    <div class="form-group">
+                        <label>Issue Type:</label>
+                        <select id="issueType" required>
+                            <option value="">Select Issue Type</option>
+                            <option value="not-received">Item not received</option>
+                            <option value="damaged">Item damaged</option>
+                            <option value="not-as-described">Not as described</option>
+                            <option value="quality-issues">Quality issues</option>
+                            <option value="seller-unresponsive">Seller unresponsive</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Detailed Description:</label>
+                        <textarea id="issueDescription" rows="4" placeholder="Please describe the issue in detail..." required></textarea>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🛡️ Dispute Resolution Process:</h5>
+                        <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                            <li>Your payment remains secured during investigation</li>
+                            <li>Our team will contact both buyer and seller</li>
+                            <li>Resolution typically takes 3-5 business days</li>
+                            <li>Refund or replacement will be provided if issue is verified</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="simulateDelivery(${productId})" style="flex: 1;">
+                        Back
+                    </button>
+                    <button class="btn btn-primary" onclick="submitIssue(${productId})" style="flex: 1;">
+                        Submit Issue
+                    </button>
+                </div>
+            `;
+        }
+        
+        // Submit issue
+        function submitIssue(productId) {
+            const issueType = document.getElementById('issueType').value;
+            const description = document.getElementById('issueDescription').value;
+            
+            if (!issueType || !description) {
+                showNotification('Please fill all required fields');
+                return;
+            }
+            
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>✅ Issue Report Submitted</h4>
+                    <div class="status-indicator status-pending">🔍 Under Investigation</div>
+                    
+                    <div style="background: #d1ecf1; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>📋 Issue Details Recorded:</h5>
+                        <p><strong>Issue ID:</strong> ISS${Date.now()}</p>
+                        <p><strong>Type:</strong> ${issueType}</p>
+                        <p><strong>Status:</strong> Under Review</p>
+                        <p><strong>Expected Resolution:</strong> 3-5 business days</p>
+                        
+                        <p style="margin-top: 1rem;">Our dispute resolution team will investigate this matter and contact you within 24 hours. Your payment remains secured until the issue is resolved.</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="closeModal('purchaseModal')" style="width: 100%; margin-top: 1rem;">
+                    Close
+                </button>
+            `;
+            
+            showNotification('Issue reported successfully! Our team will investigate.');
+        }
+
+        // View product details
+        function viewDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const productReviews = reviews.filter(r => r.productId === productId);
+            
+            let reviewsHtml = '';
+            if (productReviews.length > 0) {
+                reviewsHtml = `
+                    <div class="feedback-section">
+                        <h4>📝 Customer Reviews (${productReviews.length})</h4>
+                        <div class="reviews-container" style="max-height: 200px; overflow-y: auto;">
+                            ${productReviews.map(review => `
+                                <div class="review-card">
+                                    <div class="review-header">
+                                        <span class="reviewer-name">${review.reviewerName}</span>
+                                        <span class="review-date">${review.date}</span>
+                                    </div>
+                                    <div class="review-stars">${generateStars(review.rating)} (${review.rating}/5)</div>
+                                    <p class="review-comment">${review.comment}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">${product.image}</div>
+                    <h3>${product.title}</h3>
+                    <p style="color: #666;">by ${product.author}</p>
+                </div>
+                
+                <div class="product-details">
+                    <p><strong>Price:</strong> ₹${product.price}</p>
+                    <p><strong>Category:</strong> ${product.category}</p>
+                    <p><strong>Condition:</strong> ${product.condition}</p>
+                    <p><strong>Seller:</strong> ${product.seller}</p>
+                    <div style="margin: 0.5rem 0;">
+                        <strong>Seller Rating:</strong> 
+                        <span class="stars">${generateStars(product.sellerRating)}</span>
+                        <span>${product.sellerRating}/5 (${product.totalReviews} reviews)</span>
+                    </div>
+                    <p><strong>Description:</strong></p>
+                    <p style="background: #f8f9fa; padding: 1rem; border-radius: 10px;">${product.description}</p>
+                    
+                    <div style="background: #e7f3ff; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🔒 Safe Transaction Guaranteed</h5>
+                        <p>All transactions on EduXchange are protected by our escrow system. Your payment is held securely until you confirm receipt.</p>
+                    </div>
+                </div>
+                
+                ${reviewsHtml}
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal('purchaseModal')" style="flex: 1;">
+                        Close
+                    </button>
+                    <button class="btn btn-primary" onclick="closeModal('purchaseModal'); initiateSecurePurchase(${productId});" style="flex: 1;">
+                        🔒 Secure Buy
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeModal('purchaseModal'); openChat(${productId});" style="flex: 1; background: #28a745; color: white; border: none;">
+                        💬 Chat with Seller
+                    </button>
+                </div>
+            `;
+            
+            openModal('purchaseModal');
+        }
+
+        // Update authentication buttons
+        function updateAuthButtons() {
+            const userActions = document.querySelector('.user-actions');
+            if (currentUser) {
+                userActions.innerHTML = `
+                    <span style="color: #333; margin-right: 1rem;">Welcome, ${currentUser.name}!</span>
+                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
+                `;
+            } else {
+                userActions.innerHTML = `
+                    <button class="btn btn-secondary" onclick="openLoginModal()">Login</button>
+                    <button class="btn btn-primary" onclick="openRegisterModal()">Sign Up</button>
+                `;
+            }
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            updateAuthButtons();
+            showNotification('Logged out successfully');
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
             setTimeout(() => {
-                notification.classList.remove('show');
+                notification.style.display = 'none';
             }, 3000);
         }
 
-        function updateStatus() {
-            document.getElementById('connectedPeers').textContent = peers.length;
-            document.getElementById('filesShared').textContent = sharedFiles.length + libraryFiles.length;
-            document.getElementById('totalStorage').textContent = 
-                ((sharedFiles.length + libraryFiles.length) * 2.5).toFixed(1) + 'MB';
-            document.getElementById('reputation').textContent = currentUser.reputation + '★';
+        // Navigation functions
+        function showHome() {
+            document.getElementById('homeSection').style.display = 'block';
+            document.getElementById('buySection').style.display = 'none';
+            document.getElementById('aboutSection').style.display = 'none';
+            document.getElementById('contactSection').style.display = 'none';
+        }
+        
+        function showBuy() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('buySection').style.display = 'block';
+            document.getElementById('aboutSection').style.display = 'none';
+            document.getElementById('contactSection').style.display = 'none';
+            
+            // Render products when buy section is shown
+            renderProducts();
+        }
+        
+        function showAbout() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('buySection').style.display = 'none';
+            document.getElementById('aboutSection').style.display = 'block';
+            document.getElementById('contactSection').style.display = 'none';
+        }
+        
+        function showContact() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('buySection').style.display = 'none';
+            document.getElementById('aboutSection').style.display = 'none';
+            document.getElementById('contactSection').style.display = 'block';
+        }
+        
+        // Filter by category from home page
+        function filterByCategory(category) {
+            document.getElementById('categoryFilter').value = category;
+            applyFilters();
+        }
+        
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('priceFilter').value = '';
+            document.getElementById('conditionFilter').value = '';
+            document.getElementById('sortFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            filteredProducts = [...products];
+            renderProducts();
+        }
+        
+        // Apply sorting
+        function applySorting() {
+            const sortBy = document.getElementById('sortFilter').value;
+            
+            switch(sortBy) {
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    filteredProducts.sort((a, b) => b.sellerRating - a.sellerRating);
+                    break;
+                case 'newest':
+                    filteredProducts.sort((a, b) => b.id - a.id);
+                    break;
+                default:
+                    // No sorting
+                    break;
+            }
+            
+            renderProducts();
+        }
+        
+        // Scroll to products
+        function scrollToProducts() {
+            showBuy(); // Show buy page instead of scrolling
         }
 
-        function startP2PSimulation() {
-            // Simulate periodic peer discovery
-            setInterval(() => {
-                if (Math.random() < 0.1 && peers.length < 10) {
-                    const newPeer = {
-                        id: 'peer_' + Math.random().toString(36).substr(2, 6),
-                        distance: Math.floor(Math.random() * 1000) + 50,
-                        filesShared: Math.floor(Math.random() * 50) + 1,
-                        reputation: (Math.random() * 2 + 3).toFixed(1),
-                        lastSeen: new Date()
-                    };
-                    peers.push(newPeer);
-                    renderPeers();
-                    updateStatus();
-                }
-            }, 10000);
-
-            // Simulate file transfers
-            setInterval(() => {
-                if (Math.random() < 0.15) {
-                    const messages = [
-                        'File chunk received via mesh network',
-                        'P2P transfer completed successfully',
-                        'New study material discovered nearby',
-                        'Blockchain transaction verified',
-                        'Mesh network expanded'
-                    ];
-                    showNotification(messages[Math.floor(Math.random() * messages.length)], 'info');
-                }
-            }, 15000);
-        }
-
-        function generateMockData() {
-            // Generate mock discovered files
-            const mockFiles = [
-                {
-                    id: 'file_001',
-                    title: 'Advanced Calculus Complete Notes',
-                    category: 'mathematics',
-                    price: 0.05,
-                    description: 'Comprehensive notes covering differential and integral calculus with solved examples.',
-                    seller: 'student_alice',
-                    downloads: 156,
-                    rating: '4.8',
-                    fileHash: generateHash('calculus_notes'),
-                    timestamp: new Date(Date.now() - 86400000)
-                },
-                {
-                    id: 'file_002',
-                    title: 'Physics Lab Manual - Mechanics',
-                    category: 'physics',
-                    price: 0.03,
-                    description: 'Complete lab manual with experiments and theoretical background.',
-                    seller: 'prof_newton',
-                    downloads: 89,
-                    rating: '4.6',
-                    fileHash: generateHash('physics_lab'),
-                    timestamp: new Date(Date.now() - 172800000)
-                },
-                {
-                    id: 'file_003',
-                    title: 'Data Structures & Algorithms',
-                    category: 'computer-science',
-                    price: 0.08,
-                    description: 'Complete course material with code examples in Python and Java.',
-                    seller: 'dev_coder',
-                    downloads: 234,
-                    rating: '4.9',
-                    fileHash: generateHash('dsa_course'),
-                    timestamp: new Date(Date.now() - 259200000)
-                },
-                {
-                    id: 'file_004',
-                    title: 'Organic Chemistry Reactions',
-                    category: 'chemistry',
-                    price: 0.04,
-                    description: 'Detailed mechanism and examples of organic reactions.',
-                    seller: 'chem_master',
-                    downloads: 67,
-                    rating: '4.5',
-                    fileHash: generateHash('organic_chem'),
-                    timestamp: new Date(Date.now() - 345600000)
-                },
-                {
-                    id: 'file_005',
-                    title: 'Shakespeare Complete Works Analysis',
-                    category: 'literature',
-                    price: 0.06,
-                    description: 'In-depth analysis of major works with literary criticism.',
-                    seller: 'lit_scholar',
-                    downloads: 123,
-                    rating: '4.7',
-                    fileHash: generateHash('shakespeare'),
-                    timestamp: new Date(Date.now() - 432000000)
-                }
-            ];
-
-            discoveredFiles = mockFiles;
-
-            // Generate mock peers
-            peers = [
-                {
-                    id: 'alice_device',
-                    distance: 45,
-                    filesShared: 12,
-                    reputation: '4.8',
-                    lastSeen: new Date()
-                },
-                {
-                    id: 'bob_laptop',
-                    distance: 120,
-                    filesShared: 8,
-                    reputation: '4.2',
-                    lastSeen: new Date()
-                },
-                {
-                    id: 'carol_phone',
-                    distance: 78,
-                    filesShared: 15,
-                    reputation: '4.9',
-                    lastSeen: new Date()
-                }
-            ];
-
-            // Generate mock blockchain
-            blockchain = [
-                {
-                    id: 'genesis',
-                    type: 'genesis',
-                    fileHash: generateHash('genesis_block'),
-                    title: 'Genesis Block',
-                    category: 'system',
-                    price: 0,
-                    description: 'Initial blockchain block',
-                    seller: 'system',
-                    timestamp: new Date(Date.now() - 86400000 * 7),
-                    verified: true
-                },
-                ...mockFiles.map(file => ({
-                    ...file,
-                    type: 'file_share',
-                    verified: true
-                }))
-            ];
-        }
-
-        function openFile(fileId) {
-            showNotification('Opening file in secure viewer...', 'info');
-            // In a real implementation, this would decrypt and open the file
-        }
-
-        function shareToMesh(fileId) {
-            showNotification('Broadcasting file to mesh network...', 'info');
+        // Chat functionality
+        function openChat(productId) {
+            if (!currentUser) {
+                showNotification('Please login to chat with seller');
+                openLoginModal();
+                return;
+            }
+            
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            currentChatProduct = productId;
+            document.getElementById('chatTitle').textContent = `Chat with ${product.seller}`;
+            
+            // Load existing messages or create new conversation
+            if (!sampleChatMessages[productId]) {
+                sampleChatMessages[productId] = [
+                    {
+                        sender: 'seller',
+                        message: `Hi! I'm ${product.seller}. Thanks for your interest in "${product.title}". How can I help you?`,
+                        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                    }
+                ];
+            }
+            
+            renderChatMessages(productId);
+            openModal('chatModal');
+            
+            // Focus on input
             setTimeout(() => {
-                showNotification('File now available for P2P sharing!', 'success');
-            }, 1500);
+                document.getElementById('chatInput').focus();
+            }, 500);
+        }
+        
+        function renderChatMessages(productId) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messages = sampleChatMessages[productId] || [];
+            
+            messagesContainer.innerHTML = '';
+            
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.sender}`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-bubble">
+                        <div>${msg.message}</div>
+                        <div class="message-time">${msg.time}</div>
+                    </div>
+                `;
+                
+                messagesContainer.appendChild(messageDiv);
+            });
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function sendChatMessage() {
+            if (!currentChatProduct) return;
+            
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add buyer message
+            const newMessage = {
+                sender: 'buyer',
+                message: message,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            };
+            
+            sampleChatMessages[currentChatProduct].push(newMessage);
+            
+            // Clear input
+            input.value = '';
+            
+            // Re-render messages
+            renderChatMessages(currentChatProduct);
+            
+            // Simulate seller response (for demo purposes)
+            setTimeout(() => {
+                const responses = [
+                    "Thanks for your message! I'll get back to you shortly.",
+                    "Sure, we can meet at the campus library. What time works for you?",
+                    "The item is still available. When would you like to see it?",
+                    "I can offer a small discount if you're buying multiple items.",
+                    "Let me know if you have any other questions!",
+                    "Would you prefer to meet today or tomorrow?",
+                    "The condition is exactly as described in the listing.",
+                    "Payment can be made through the platform for security."
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                
+                const sellerMessage = {
+                    sender: 'seller',
+                    message: randomResponse,
+                    time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                };
+                
+                sampleChatMessages[currentChatProduct].push(sellerMessage);
+                renderChatMessages(currentChatProduct);
+            }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
+        }
+        
+        // Terms and Conditions functionality
+        function showTermsAndConditions() {
+            openModal('termsModal');
+        }
+        
+        function acceptTerms() {
+            const checkbox = document.getElementById('termsCheckbox');
+            if (!checkbox.checked) {
+                showNotification('Please read and accept the terms and conditions');
+                return;
+            }
+            
+            closeModal('termsModal');
+            showNotification('Terms accepted. You may now proceed with the transaction.');
+        }
+        
+        // Enable/disable accept button based on checkbox
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.getElementById('termsCheckbox');
+            const acceptBtn = document.getElementById('acceptTermsBtn');
+            
+            if (checkbox && acceptBtn) {
+                checkbox.addEventListener('change', function() {
+                    acceptBtn.disabled = !this.checked;
+                    acceptBtn.style.opacity = this.checked ? '1' : '0.5';
+                });
+            }
+        });
+        
+        // Enter key support for chat
+        document.addEventListener('keypress', function(e) {
+            if (e.target.id === 'chatInput' && e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+            }
+        });
+
+        // Send message function
+        function sendMessage(event) {
+            event.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            // Simulate sending message
+            showNotification(`Thank you ${name}! Your message has been sent to Team Curio Coders.`);
+            
+            // Reset form
+            document.querySelector('#contactSection form').reset();
         }
 
-        // Initialize the application when page loads
-        window.addEventListener('load', init);
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                searchProducts();
+            }
+        });
     </script>
 </body>
 </html>

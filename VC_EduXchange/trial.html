@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduXchange - Student Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Search Bar */
+        .search-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Product Grid */
+        .products-section h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-author {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 25px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #667eea;
+        }
+
+        /* Escrow Status */
+        .escrow-status {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: #28a745;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">EduXchange</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#buy">Buy</a></li>
+                <li><a href="#sell" onclick="openSellModal()">Sell</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="user-actions">
+                <button class="btn btn-secondary" onclick="openLoginModal()">Login</button>
+                <button class="btn btn-primary" onclick="openRegisterModal()">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Welcome to EduXchange</h1>
+            <p>The secure marketplace for students to buy and sell educational materials with fraud-free transactions
+            </p>
+            <button class="btn btn-primary" onclick="scrollToProducts()">Start Shopping</button>
+        </section>
+
+        <section class="search-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search for books, notes, stationery..."
+                    id="searchInput">
+                <button class="search-btn" onclick="searchProducts()">🔍 Search</button>
+            </div>
+            <div class="filters">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="textbooks">Textbooks</option>
+                    <option value="notes">Notes</option>
+                    <option value="stationery">Stationery</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="tools">Tools</option>
+                </select>
+                <select class="filter-select" id="priceFilter">
+                    <option value="">All Prices</option>
+                    <option value="0-500">₹0 - ₹500</option>
+                    <option value="500-1000">₹500 - ₹1000</option>
+                    <option value="1000-2000">₹1000 - ₹2000</option>
+                    <option value="2000+">₹2000+</option>
+                </select>
+                <select class="filter-select" id="conditionFilter">
+                    <option value="">All Conditions</option>
+                    <option value="new">New</option>
+                    <option value="like-new">Like New</option>
+                    <option value="good">Good</option>
+                    <option value="fair">Fair</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="products-section">
+            <h2>Featured Products</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 EduXchange - Curio Coders. Making education accessible for all students.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to EduXchange</h2>
+                <button class="close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Join EduXchange</h2>
+                <button class="close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="regName">Full Name:</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email:</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPhone">Phone Number:</label>
+                    <input type="tel" id="regPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="regCollege">College/University:</label>
+                    <input type="text" id="regCollege" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password:</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sell Item Modal -->
+    <div class="modal" id="sellModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sell Your Item</h2>
+                <button class="close" onclick="closeModal('sellModal')">&times;</button>
+            </div>
+            <form onsubmit="handleSell(event)">
+                <div class="form-group">
+                    <label for="itemTitle">Item Title:</label>
+                    <input type="text" id="itemTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCategory">Category:</label>
+                    <select id="itemCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="textbooks">Textbooks</option>
+                        <option value="notes">Notes</option>
+                        <option value="stationery">Stationery</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="tools">Tools</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="itemAuthor">Author/Brand:</label>
+                    <input type="text" id="itemAuthor">
+                </div>
+                <div class="form-group">
+                    <label for="itemPrice">Price (₹):</label>
+                    <input type="number" id="itemPrice" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCondition">Condition:</label>
+                    <select id="itemCondition" required>
+                        <option value="">Select Condition</option>
+                        <option value="new">New</option>
+                        <option value="like-new">Like New</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="itemDescription">Description:</label>
+                    <textarea id="itemDescription" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">List Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Purchase Modal -->
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Secure Purchase</h2>
+                <button class="close" onclick="closeModal('purchaseModal')">&times;</button>
+            </div>
+            <div id="purchaseContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Sample products data
+        let products = [
+            {
+                id: 1,
+                title: "Engineering Mathematics",
+                author: "B.S. Grewal",
+                price: 450,
+                category: "textbooks",
+                condition: "good",
+                description: "Complete mathematics textbook for engineering students",
+                seller: "Rahul Kumar",
+                image: "📚"
+            },
+            {
+                id: 2,
+                title: "Data Structures Notes",
+                author: "Class Notes",
+                price: 200,
+                category: "notes",
+                condition: "new",
+                description: "Comprehensive handwritten notes on data structures",
+                seller: "Priya Singh",
+                image: "📝"
+            },
+            {
+                id: 3,
+                title: "Scientific Calculator",
+                author: "Casio",
+                price: 800,
+                category: "electronics",
+                condition: "like-new",
+                description: "Casio FX-991ES Plus scientific calculator",
+                seller: "Amit Sharma",
+                image: "🧮"
+            },
+            {
+                id: 4,
+                title: "Mechanical Pencil Set",
+                author: "Pilot",
+                price: 150,
+                category: "stationery",
+                condition: "new",
+                description: "Set of 3 mechanical pencils with extra leads",
+                seller: "Sneha Patel",
+                image: "✏️"
+            },
+            {
+                id: 5,
+                title: "Physics Lab Manual",
+                author: "Dr. R.K. Shukla",
+                price: 300,
+                category: "textbooks",
+                condition: "good",
+                description: "Complete physics lab manual with experiments",
+                seller: "Vikash Yadav",
+                image: "🔬"
+            },
+            {
+                id: 6,
+                title: "Chemistry Notes PDF",
+                author: "Digital Notes",
+                price: 100,
+                category: "notes",
+                condition: "new",
+                description: "Digital chemistry notes for JEE preparation",
+                seller: "Anjali Gupta",
+                image: "💻"
+            }
+        ];
+
+        let currentUser = null;
+        let filteredProducts = [...products];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function () {
+            renderProducts();
+            setupFilters();
+        });
+
+        // Render products in the grid
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">${product.image}</div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-author">by ${product.author}</p>
+                        <p class="product-price">₹${product.price}</p>
+                        <div class="product-actions">
+                            <button class="btn btn-primary btn-small" onclick="initiateSecurePurchase(${product.id})">
+                                🔒 Secure Buy
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="viewDetails(${product.id})">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(productCard);
+            });
+        }
+
+        // Setup filter functionality
+        function setupFilters() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            const conditionFilter = document.getElementById('conditionFilter');
+
+            [categoryFilter, priceFilter, conditionFilter].forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const category = document.getElementById('categoryFilter').value;
+            const priceRange = document.getElementById('priceFilter').value;
+            const condition = document.getElementById('conditionFilter').value;
+
+            filteredProducts = products.filter(product => {
+                const matchesCategory = !category || product.category === category;
+                const matchesCondition = !condition || product.condition === condition;
+
+                let matchesPrice = true;
+                if (priceRange) {
+                    if (priceRange === '0-500') {
+                        matchesPrice = product.price >= 0 && product.price <= 500;
+                    } else if (priceRange === '500-1000') {
+                        matchesPrice = product.price > 500 && product.price <= 1000;
+                    } else if (priceRange === '1000-2000') {
+                        matchesPrice = product.price > 1000 && product.price <= 2000;
+                    } else if (priceRange === '2000+') {
+                        matchesPrice = product.price > 2000;
+                    }
+                }
+
+                return matchesCategory && matchesPrice && matchesCondition;
+            });
+
+            renderProducts();
+        }
+
+        // Search functionality
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            if (!searchTerm) {
+                filteredProducts = [...products];
+            } else {
+                filteredProducts = products.filter(product =>
+                    product.title.toLowerCase().includes(searchTerm) ||
+                    product.author.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            renderProducts();
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openLoginModal() {
+            openModal('loginModal');
+        }
+
+        function openRegisterModal() {
+            openModal('registerModal');
+        }
+
+        function openSellModal() {
+            openModal('sellModal');
+        }
+
+        // Handle login
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+
+            // Simulate login
+            currentUser = {
+                name: "Student User",
+                email: email
+            };
+
+            updateAuthButtons();
+            closeModal('loginModal');
+            showNotification('Login successful! Welcome to EduXchange');
+        }
+
+        // Handle registration
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+
+            // Simulate registration
+            currentUser = {
+                name: name,
+                email: email
+            };
+
+            updateAuthButtons();
+            closeModal('registerModal');
+            showNotification('Registration successful! Welcome to EduXchange');
+        }
+
+        // Handle selling
+        function handleSell(event) {
+            event.preventDefault();
+
+            const newProduct = {
+                id: products.length + 1,
+                title: document.getElementById('itemTitle').value,
+                author: document.getElementById('itemAuthor').value || 'Unknown',
+                price: parseInt(document.getElementById('itemPrice').value),
+                category: document.getElementById('itemCategory').value,
+                condition: document.getElementById('itemCondition').value,
+                description: document.getElementById('itemDescription').value,
+                seller: currentUser ? currentUser.name : 'Anonymous',
+                image: getCategoryIcon(document.getElementById('itemCategory').value)
+            };
+
+            products.push(newProduct);
+            filteredProducts = [...products];
+            renderProducts();
+            closeModal('sellModal');
+            showNotification('Item listed successfully!');
+
+            // Reset form
+            document.querySelector('#sellModal form').reset();
+        }
+
+        // Get category icon
+        function getCategoryIcon(category) {
+            const icons = {
+                'textbooks': '📚',
+                'notes': '📝',
+                'stationery': '✏️',
+                'electronics': '📱',
+                'tools': '🔧'
+            };
+            return icons[category] || '📦';
+        }
+
+        // Initiate secure purchase
+        function initiateSecurePurchase(productId) {
+            if (!currentUser) {
+                showNotification('Please login to make a purchase');
+                openLoginModal();
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="product-info">
+                    <h3>${product.title}</h3>
+                    <p>by ${product.author}</p>
+                    <p><strong>Price: ₹${product.price}</strong></p>
+                    <p><strong>Seller: ${product.seller}</strong></p>
+                    <p>Condition: ${product.condition}</p>
+                </div>
+                
+                <div class="escrow-status">
+                    <h4>🔒 Escrow Payment Protection</h4>
+                    <p>Your payment will be held securely until both you and the seller confirm the transaction.</p>
+                    <div class="status-indicator status-pending">Step 1: Payment Pending</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="buyerAddress">Delivery Address:</label>
+                    <textarea id="buyerAddress" rows="3" placeholder="Enter your complete address" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method:</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="upi">UPI</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="netbanking">Net Banking</option>
+                        <option value="wallet">Digital Wallet</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" 
+                        onclick="processEscrowPayment(${productId})">
+                    🔒 Pay ₹${product.price} (Secured by Escrow)
+                </button>
+            `;
+
+            openModal('purchaseModal');
+        }
+
+        // Process escrow payment
+        function processEscrowPayment(productId) {
+            const address = document.getElementById('buyerAddress').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+
+            if (!address || !paymentMethod) {
+                showNotification('Please fill all required fields');
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+
+            // Simulate escrow payment process
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>🔒 Escrow Payment Status</h4>
+                    <div class="status-indicator status-confirmed">✓ Payment Received & Secured</div>
+                    <div class="status-indicator status-pending">⏳ Waiting for Seller Confirmation</div>
+                    <div class="status-indicator status-pending">⏳ Item Delivery Pending</div>
+                    
+                    <h4 style="margin-top: 1.5rem;">Transaction Details</h4>
+                    <p><strong>Transaction ID:</strong> TXN${Date.now()}</p>
+                    <p><strong>Amount Secured:</strong> ₹${product.price}</p>
+                    <p><strong>Seller Contact:</strong> Will be shared after confirmation</p>
+                    <p><strong>Estimated Delivery:</strong> 3-5 business days</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🛡️ How Escrow Protection Works:</h5>
+                        <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                            <li>Your payment is held securely by EduXchange</li>
+                            <li>Seller ships the item to your address</li>
+                            <li>You confirm receipt and condition</li>
+                            <li>Payment is released to seller only after your confirmation</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="simulateDelivery(${productId})" style="flex: 1;">
+                        📦 Simulate Delivery
+                    </button>
+                    <button class="btn btn-primary" onclick="closeModal('purchaseModal')" style="flex: 1;">
+                        Done
+                    </button>
+                </div>
+            `;
+
+            showNotification('Payment secured! Seller will be notified.');
+        }
+
+        // Simulate delivery process
+        function simulateDelivery(productId) {
+            const product = products.find(p => p.id === productId);
+            const content = document.getElementById('purchaseContent');
+
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>🔒 Escrow Payment Status</h4>
+                    <div class="status-indicator status-completed">✓ Payment Secured</div>
+                    <div class="status-indicator status-completed">✓ Item Shipped</div>
+                    <div class="status-indicator status-confirmed">📦 Item Delivered</div>
+                    
+                    <h4 style="margin-top: 1.5rem;">Confirm Receipt</h4>
+                    <p>Please confirm that you have received the item in good condition:</p>
+                    
+                    <div class="form-group">
+                        <label>Rate the item condition:</label>
+                        <select id="itemRating">
+                            <option value="5">Excellent - As described</option>
+                            <option value="4">Good - Minor issues</option>
+                            <option value="3">Fair - Some issues</option>
+                            <option value="2">Poor - Major issues</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Feedback (optional):</label>
+                        <textarea id="buyerFeedback" rows="3" placeholder="Share your experience..."></textarea>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="reportIssue(${productId})" style="flex: 1;">
+                        ⚠️ Report Issue
+                    </button>
+                    <button class="btn btn-primary" onclick="confirmDelivery(${productId})" style="flex: 1;">
+                        ✓ Confirm & Release Payment
+                    </button>
+                </div>
+            `;
+        }
+
+        // Confirm delivery and release payment
+        function confirmDelivery(productId) {
+            const rating = document.getElementById('itemRating').value;
+            const feedback = document.getElementById('buyerFeedback').value;
+            const product = products.find(p => p.id === productId);
+
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>✅ Transaction Completed Successfully!</h4>
+                    <div class="status-indicator status-completed">✓ Payment Released to Seller</div>
+                    <div class="status-indicator status-completed">✓ Transaction Closed</div>
+                    
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🎉 Thank you for using EduXchange!</h5>
+                        <p>Your payment of ₹${product.price} has been safely transferred to the seller.</p>
+                        <p><strong>Transaction ID:</strong> TXN${Date.now()}</p>
+                        <p><strong>Rating Given:</strong> ${rating}/5 stars</p>
+                        ${feedback ? `<p><strong>Your Feedback:</strong> "${feedback}"</p>` : ''}
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="closeModal('purchaseModal')" style="width: 100%; margin-top: 1rem;">
+                    Close
+                </button>
+            `;
+
+            showNotification('Transaction completed! Payment released to seller.');
+        }
+
+        // Report issue
+        function reportIssue(productId) {
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>⚠️ Report an Issue</h4>
+                    <p>We're sorry to hear you're experiencing an issue. Please describe the problem:</p>
+                    
+                    <div class="form-group">
+                        <label>Issue Type:</label>
+                        <select id="issueType" required>
+                            <option value="">Select Issue Type</option>
+                            <option value="not-received">Item not received</option>
+                            <option value="damaged">Item damaged</option>
+                            <option value="not-as-described">Not as described</option>
+                            <option value="quality-issues">Quality issues</option>
+                            <option value="seller-unresponsive">Seller unresponsive</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Detailed Description:</label>
+                        <textarea id="issueDescription" rows="4" placeholder="Please describe the issue in detail..." required></textarea>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🛡️ Dispute Resolution Process:</h5>
+                        <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                            <li>Your payment remains secured during investigation</li>
+                            <li>Our team will contact both buyer and seller</li>
+                            <li>Resolution typically takes 3-5 business days</li>
+                            <li>Refund or replacement will be provided if issue is verified</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="simulateDelivery(${productId})" style="flex: 1;">
+                        Back
+                    </button>
+                    <button class="btn btn-primary" onclick="submitIssue(${productId})" style="flex: 1;">
+                        Submit Issue
+                    </button>
+                </div>
+            `;
+        }
+
+        // Submit issue
+        function submitIssue(productId) {
+            const issueType = document.getElementById('issueType').value;
+            const description = document.getElementById('issueDescription').value;
+
+            if (!issueType || !description) {
+                showNotification('Please fill all required fields');
+                return;
+            }
+
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div class="escrow-status">
+                    <h4>✅ Issue Report Submitted</h4>
+                    <div class="status-indicator status-pending">🔍 Under Investigation</div>
+                    
+                    <div style="background: #d1ecf1; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>📋 Issue Details Recorded:</h5>
+                        <p><strong>Issue ID:</strong> ISS${Date.now()}</p>
+                        <p><strong>Type:</strong> ${issueType}</p>
+                        <p><strong>Status:</strong> Under Review</p>
+                        <p><strong>Expected Resolution:</strong> 3-5 business days</p>
+                        
+                        <p style="margin-top: 1rem;">Our dispute resolution team will investigate this matter and contact you within 24 hours. Your payment remains secured until the issue is resolved.</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="closeModal('purchaseModal')" style="width: 100%; margin-top: 1rem;">
+                    Close
+                </button>
+            `;
+
+            showNotification('Issue reported successfully! Our team will investigate.');
+        }
+
+        // View product details
+        function viewDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const content = document.getElementById('purchaseContent');
+            content.innerHTML = `
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">${product.image}</div>
+                    <h3>${product.title}</h3>
+                    <p style="color: #666;">by ${product.author}</p>
+                </div>
+                
+                <div class="product-details">
+                    <p><strong>Price:</strong> ₹${product.price}</p>
+                    <p><strong>Category:</strong> ${product.category}</p>
+                    <p><strong>Condition:</strong> ${product.condition}</p>
+                    <p><strong>Seller:</strong> ${product.seller}</p>
+                    <p><strong>Description:</strong></p>
+                    <p style="background: #f8f9fa; padding: 1rem; border-radius: 10px;">${product.description}</p>
+                    
+                    <div style="background: #e7f3ff; padding: 1rem; border-radius: 10px; margin-top: 1rem;">
+                        <h5>🔒 Safe Transaction Guaranteed</h5>
+                        <p>All transactions on EduXchange are protected by our escrow system. Your payment is held securely until you confirm receipt.</p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="closeModal('purchaseModal')" style="flex: 1;">
+                        Close
+                    </button>
+                    <button class="btn btn-primary" onclick="closeModal('purchaseModal'); initiateSecurePurchase(${productId});" style="flex: 1;">
+                        🔒 Secure Buy
+                    </button>
+                </div>
+            `;
+
+            openModal('purchaseModal');
+        }
+
+        // Update authentication buttons
+        function updateAuthButtons() {
+            const userActions = document.querySelector('.user-actions');
+            if (currentUser) {
+                userActions.innerHTML = `
+                    <span style="color: #333; margin-right: 1rem;">Welcome, ${currentUser.name}!</span>
+                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
+                `;
+            } else {
+                userActions.innerHTML = `
+                    <button class="btn btn-secondary" onclick="openLoginModal()">Login</button>
+                    <button class="btn btn-primary" onclick="openRegisterModal()">Sign Up</button>
+                `;
+            }
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            updateAuthButtons();
+            showNotification('Logged out successfully');
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Scroll to products
+        function scrollToProducts() {
+            document.querySelector('.products-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                searchProducts();
+            }
+        });
+    </script>
+</body>
+
+</html>
